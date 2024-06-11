@@ -9,8 +9,8 @@ def Chatbot_app():
     col1, col2 = st.columns(2)
 
     with col1:
-        RAG = st.checkbox("Enable RAG", key="enabled")
-        Adv_prompts = st.checkbox("Enable advanced prompts", key="enabled")
+        RAG = st.checkbox("Enable RAG", key="enabled_RAG")
+        Adv_prompts = st.checkbox("Enable advanced prompts", key="enabled_prompts")
         
     with col2:
         option = st.selectbox(
