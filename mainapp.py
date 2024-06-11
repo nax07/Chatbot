@@ -17,5 +17,4 @@ selection = st.sidebar.radio("Go to", list(PAGES.keys()))
 page = PAGES[selection]
 
 # Provide the API key to the page function
-with st.container():
-    page()
+page()
