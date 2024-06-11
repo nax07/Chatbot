@@ -3,16 +3,12 @@ import streamlit as st
 from pages.chatbot import *
 from pages.info import *
 
-#from libraries.text_translation import *
-#from libraries.text_processing import *
-
 import streamlit as st
 
 PAGES = {
     "Info": Info_app,
     "Chatbot": Chatbot_app
 }
-    #"Chat with Search": Search_app,
 
 
 st.sidebar.title('Navigation')
