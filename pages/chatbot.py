@@ -14,7 +14,9 @@ def Chatbot_app():
         Adv_prompts = st.checkbox("Enable advanced prompts", key="enabled_prompts")
         option = st.selectbox(
             "Select LLM",
-            ("gpt2-medium", "banana phone", "19 $ fornite card")
+            ("gpt2-medium", "banana phone", "19 $ fornite card"),
+            index=None,
+            placeholder="Select LLM model..."
         )
 
         # Button to confirm settings
