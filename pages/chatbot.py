@@ -23,9 +23,10 @@ def Chatbot_app():
             st.session_state.messages = []
 
             # Display selected options
-            st.write(f"RAG: {'Enabled' if RAG else 'Disabled'}")
-            st.write(f"Advanced Prompts: {'Enabled' if Adv_prompts else 'Disabled'}")
-            st.write(f"Selected LLM: {option}")
+            with col2:
+                st.write(f"RAG: {'Enabled' if RAG else 'Disabled'}")
+                st.write(f"Advanced Prompts: {'Enabled' if Adv_prompts else 'Disabled'}")
+                st.write(f"Selected LLM: {option}")
 
             # Create space for the chatbot
             st.write('Chat')
