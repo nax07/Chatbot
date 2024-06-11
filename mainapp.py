@@ -9,7 +9,7 @@ PAGES = {
 }
 
 
-st.sidebar.title('Navigation')
+st.sidebar.title('Páginas')
 selection = st.sidebar.radio("Go to", list(PAGES.keys()))
 
 
