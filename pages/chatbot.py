@@ -21,13 +21,13 @@ def Chatbot_app():
             placeholder="Select LLM model..."
         )
     
-        # Button to confirm settings
-        if st.button("Confirmar Configuraciones"):
-            if option == None:
-                st.error("Debe seleccionar un modelo LLM.")
-            else:
-                # Reset the chat history
-                st.session_state.messages = []
+    # Button to confirm settings
+    if st.button("Confirmar Configuraciones"):
+        if option == None:
+            st.error("Debe seleccionar un modelo LLM.")
+        else:
+            # Reset the chat history
+            st.session_state.messages = []
     # Create space for the chatbot
     st.write(f'Chat{option}')
     prompt = st.chat_input('¿Qué tal?')
