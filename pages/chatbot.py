@@ -1,6 +1,4 @@
 import streamlit as st
-from libraries.text_translation import *
-from libraries.text_processing import *
 
 def Chatbot_app():
 
