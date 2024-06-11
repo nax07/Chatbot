@@ -36,5 +36,5 @@ def Chatbot_app():
             with st.chat_message(message["role"]):
                 st.markdown(message["content"])
 
-    prompt = st.chat_input('¿Qué tal?')
+    prompt = st.chat_input('¿Qué tala?')
     
