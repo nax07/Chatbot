@@ -28,7 +28,7 @@ def Chatbot_app():
         )
     
     with st.container():
-       st.write("Chaaat")
+        st.write("Chaaat")
         if "messages" not in st.session_state:
             st.session_state.messages = []
     
