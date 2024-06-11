@@ -25,8 +25,6 @@ def Chatbot_app():
     if st.button("Confirmar Configuraciones"):
         # Reset the chat history
         st.session_state.messages = []
-    if option == None:
-        st.error("Debe seleccionar un modelo LLM.")
 
 
     # Create space for the chatbot
@@ -34,7 +32,6 @@ def Chatbot_app():
     prompt = st.chat_input('¿Qué tal?')
     
     
-
     with st.container(border=True):
         if "messages" not in st.session_state:
             st.session_state.messages = []
@@ -47,3 +44,6 @@ def Chatbot_app():
             st.session_state.messages.append({"role": "user", "content": prompt})
             st.session_state.messages.append({"role": "assistant", "content": prompt})
             st.experimental_rerun()
+            
+        if option == None:
+            st.error("Debe seleccionar un modelo LLM.")
