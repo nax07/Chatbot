@@ -36,7 +36,7 @@ def Chatbot_app():
             st.markdown(message["content"])
 
     prompt = st.chat_input('¿Qué tal?')
-    with st.container():
+    with st.container(border=True):
         if prompt:
             st.session_state.messages.append({"role": "user", "content": prompt})
             st.session_state.messages.append({"role": "assistant", "content": prompt})
