@@ -27,7 +27,7 @@ def Chatbot_app():
             
 
     # Create space for the chatbot
-    st.write(f'Chat{option}')
+    st.write('Chat')
     prompt = st.chat_input('¿Qué tal?')
 
     
