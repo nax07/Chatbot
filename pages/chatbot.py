@@ -30,7 +30,9 @@ def Chatbot_app():
     # Create space for the chatbot
     st.write(f'Chat{option}')
     prompt = st.chat_input('¿Qué tal?')
-    
+
+    if prompt and option == None:
+        st.error("Debe seleccionar un modelo LLM.")
     
     with st.container(border=True):
         if "messages" not in st.session_state:
@@ -40,10 +42,9 @@ def Chatbot_app():
             with st.chat_message(message["role"]):
                 st.markdown(message["content"])
         
-        if prompt and option != None:
+        if prompt:
             st.session_state.messages.append({"role": "user", "content": prompt})
             st.session_state.messages.append({"role": "assistant", "content": prompt})
             st.experimental_rerun()
             
-        if option == None:
-            st.error("Debe seleccionar un modelo LLM.")
+        
