@@ -22,7 +22,8 @@ def Chatbot_app():
         )
     
     # Button to confirm settings
-    if st.button("Confirmar Configuraciones"):
+    set_button =  st.button("Confirmar Configuraciones")
+    if set_button:
         # Reset the chat history
         st.session_state.messages = []
         if option == None:
@@ -34,17 +35,14 @@ def Chatbot_app():
     prompt = st.chat_input('¿Qué tal?')
 
     
-    
-    with st.container(border=True):
-        #if "messages" not in st.session_state:
-        #    st.session_state.messages = []
-
-        for message in st.session_state.messages:
-            with st.chat_message(message["role"]):
-                st.markdown(message["content"])
-        
-        if prompt and option != None:
-            st.session_state.messages.append({"role": "user", "content": prompt})
-            st.session_state.messages.append({"role": "assistant", "content": prompt})
-            st.experimental_rerun()
+    if set_button:
+        with st.container(border=True):
+            for message in st.session_state.messages:
+                with st.chat_message(message["role"]):
+                    st.markdown(message["content"])
+            
+            if prompt and option != None:
+                st.session_state.messages.append({"role": "user", "content": prompt})
+                st.session_state.messages.append({"role": "assistant", "content": prompt})
+                st.experimental_rerun()
         
