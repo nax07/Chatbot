@@ -3,8 +3,6 @@ import streamlit as st
 from pages.chatbot import *
 from pages.info import *
 
-import streamlit as st
-
 PAGES = {
     "Info": Info_app,
     "Chatbot": Chatbot_app
