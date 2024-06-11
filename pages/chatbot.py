@@ -17,8 +17,6 @@ def Chatbot_app():
         option = st.selectbox(
             "Select LLM",
             ("gpt2-medium", "banana phone", "19 $ fornite card"),
-            index=None,
-            placeholder="Select LLM model..."
         )
     
     # Button to confirm settings
@@ -26,8 +24,6 @@ def Chatbot_app():
     if set_button:
         # Reset the chat history
         st.session_state.messages = []
-        if option == None:
-            st.error("Debe seleccionar un modelo LLM.")
             
 
     # Create space for the chatbot
@@ -35,14 +31,17 @@ def Chatbot_app():
     prompt = st.chat_input('¿Qué tal?')
 
     
-    if set_button:
-        with st.container(border=True):
-            for message in st.session_state.messages:
-                with st.chat_message(message["role"]):
-                    st.markdown(message["content"])
-            
-            if prompt and option != None:
-                st.session_state.messages.append({"role": "user", "content": prompt})
-                st.session_state.messages.append({"role": "assistant", "content": prompt})
-                st.experimental_rerun()
+    with st.container(border=True):
+
+        if "messages" not in st.session_state:
+                st.session_state.messages = []
         
+        for message in st.session_state.messages:
+            with st.chat_message(message["role"]):
+                st.markdown(message["content"])
+        
+        if prompt:
+            st.session_state.messages.append({"role": "user", "content": prompt})
+            st.session_state.messages.append({"role": "assistant", "content": prompt})
+            st.experimental_rerun()
+    
