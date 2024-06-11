@@ -4,7 +4,7 @@ def Chatbot_app():
 
 
     st.title("Chatbot")
-    st.write("Puedes preguntar al Chatbot lo que necesites")
+    st.write("Puedes preguntar al Chatbot lo que necesite")
 
     col1, col2 = st.columns(2)
 
