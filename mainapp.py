@@ -1,7 +1,7 @@
 import streamlit as st
 
-from pages.chatbot import *
-from pages.info import *
+from pages.chatbot import Chatbot_app
+from pages.info import Info_app
 
 PAGES = {
     "Info": Info_app,
