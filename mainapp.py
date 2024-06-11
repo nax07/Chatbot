@@ -2,8 +2,8 @@ import streamlit as st
 
 from pages.chatbot import *
 
-from libraries.text_translation import *
-from libraries.text_processing import *
+#from libraries.text_translation import *
+#from libraries.text_processing import *
 
 import streamlit as st
 
