@@ -1,6 +1,7 @@
 import streamlit as st
 import os
 
+os.chdir('/web/pages/libraries')
 cwd = os.getcwd()
 st.write(f"{os.listdir(cwd)}")
 
