@@ -44,6 +44,7 @@ if selected_file:
                 if 'Images_URL' in data.columns:
                     st.markdown("**Imágenes:**")
                     for img_url in data.loc[index, 'Images_URL']:
+                        st.write(f"{img_url}")
                         st.image(img_url, width=200)
         else:
             column = st.selectbox("Seleccione la columna", data.columns)
