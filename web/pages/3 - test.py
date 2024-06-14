@@ -52,9 +52,11 @@ if selected_file:
             # Mostrar las imágenes si están disponibles
             if 'Images_URL' in data.columns:
                 st.markdown("**Imágenes:**")
-                img_list = ast.literal_eval(data.loc[st.session_state.index, 'Images_URL'])
+                img_list_str = data.loc[st.session_state.index, 'Images_URL']
+                img_list = ast.literal_eval(img_list_str) if isinstance(img_list_str, str) else img_list_str
                 if img_list:  # Verificar si hay imágenes en la lista
-                    st.image(img_list[0].strip(), caption="1 de {}".format(len(img_list)))
+                    for i, img_url in enumerate(img_list, start=1):
+                        st.image(img_url.strip(), caption=f"{i} de {len(img_list)}")
                     
                     # Añadir flechas para navegar entre las imágenes
                     cols = st.columns(2)  # 2 columnas para las flechas
@@ -82,8 +84,6 @@ if selected_file:
                 query = st.session_state.search_value
                 st.write(data[data[column].astype(str).str.contains(query, case=False, na=False)])
 
-        # Mostrar la tabla completa
-        # st.dataframe(data)
 
     else:
         st.error("No se pudo cargar el archivo. Formato no soportado.")
