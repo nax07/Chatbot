@@ -1,5 +1,8 @@
 import streamlit as st
 
+from libraries.text_processing import *
+from libraries.text_translation import *
+
 st.title("Chatbot")
 
 # Sidebar
@@ -35,8 +38,6 @@ if set_button:
 # Create space for the chatbot
 prompt = st.chat_input('Envía un mensaje')
 
-
-
 if "messages" not in st.session_state:
         st.session_state.messages = []
 
@@ -45,6 +46,11 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 if prompt:
+    if option != "Inglés":
+        translated_prompt = translator(text, option, "Inglés")
+    else:
+        translated_prompt = prompt
+    
     st.session_state.messages.append({"role": "user", "content": prompt})
-    st.session_state.messages.append({"role": "assistant", "content": prompt})
+    st.session_state.messages.append({"role": "assistant", "content": translated_prompt})
     st.experimental_rerun()
