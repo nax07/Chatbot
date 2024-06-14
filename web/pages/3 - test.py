@@ -49,25 +49,31 @@ if selected_file:
         st.session_state.search_option = st.radio("Buscar por", ('Índice', 'Nombre de columna'), index=0 if st.session_state.search_option == 'Índice' else 1)
         
         if st.session_state.search_option == 'Índice':
-            # Mostrar la imagen actual
-            st.markdown("**Imágenes:**")
-            img_list = ast.literal_eval(data.loc[st.session_state.index, 'Images_URL'])
-            st.image(img_list[0].strip(), caption="1 de {}".format(len(img_list)))
-            
-            # Añadir flechas para navegar entre las imágenes
-            cols = st.columns(2)  # 2 columnas para las flechas
-            
-            # Flecha izquierda para retroceder
-            with cols[0]:
-                if st.session_state.index > 0:
-                    if st.button("←"):
-                        st.session_state.index -= 1
-            
-            # Flecha derecha para avanzar
-            with cols[1]:
-                if st.session_state.index < len(data) - 1:
-                    if st.button("→"):
-                        st.session_state.index += 1
+            # Mostrar las imágenes si están disponibles
+            if 'Images_URL' in data.columns:
+                st.markdown("**Imágenes:**")
+                img_list = ast.literal_eval(data.loc[st.session_state.index, 'Images_URL'])
+                if img_list:  # Verificar si hay imágenes en la lista
+                    st.image(img_list[0].strip(), caption="1 de {}".format(len(img_list)))
+                    
+                    # Añadir flechas para navegar entre las imágenes
+                    cols = st.columns(2)  # 2 columnas para las flechas
+                    
+                    # Flecha izquierda para retroceder
+                    with cols[0]:
+                        if st.session_state.index > 0:
+                            if st.button("←"):
+                                st.session_state.index -= 1
+                    
+                    # Flecha derecha para avanzar
+                    with cols[1]:
+                        if st.session_state.index < len(data) - 1:
+                            if st.button("→"):
+                                st.session_state.index += 1
+                else:
+                    st.write("No hay imágenes disponibles para este índice.")
+            else:
+                st.write("Este archivo no contiene información de imágenes.")
         
         else:
             column = st.selectbox("Seleccione la columna", data.columns)
@@ -77,7 +83,7 @@ if selected_file:
                 st.write(data[data[column].astype(str).str.contains(query, case=False, na=False)])
 
         # Mostrar la tabla completa
-        #st.dataframe(data)
+        # st.dataframe(data)
 
     else:
         st.error("No se pudo cargar el archivo. Formato no soportado.")
