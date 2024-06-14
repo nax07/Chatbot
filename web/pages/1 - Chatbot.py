@@ -3,7 +3,10 @@ import os
 
 cwd = os.getcwd()
 st.write(f"{os.listdir(cwd)}")
-os.chdir('web')
+os.chdir('pages')
+cwd = os.getcwd()
+st.write(f"{os.listdir(cwd)}")
+os.chdir('pages')
 cwd = os.getcwd()
 st.write(f"{os.listdir(cwd)}")
 
