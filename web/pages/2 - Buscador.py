@@ -44,7 +44,7 @@ if selected_file:
                 if 'Images_URL' in data.columns:
                     st.markdown("**Imágenes:**")
                     for img_url in data.loc[index, 'Images_URL']:
-                        st.image(img_url.strip(), width=200)
+                        st.image(img_url, width=200)
         else:
             column = st.selectbox("Seleccione la columna", data.columns)
             query = st.text_input(f"Ingrese el valor para buscar en la columna {column}")
