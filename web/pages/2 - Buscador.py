@@ -72,9 +72,6 @@ if selected_file:
             if st.button("Buscar"):
                 st.write(data[data[column].astype(str).str.contains(query, case=False, na=False)])
 
-        # Mostrar la tabla completa
-        #st.dataframe(data)
-
         
     else:
         st.error("No se pudo cargar el archivo. Formato no soportado.")
