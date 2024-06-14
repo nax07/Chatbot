@@ -14,7 +14,7 @@ def data_processing(text, modelo, RAG, Adv_prompts):
         prompt = f"Question: {text}.\nAnswer:"    
     
     generated_text =  pipe(prompt, max_length=100, num_return_sequences=1, truncation=True)
-    generated_text = generated_text[0]["generated_text"].split("\n")[1]
+    generated_text = generated_text[0]["generated_text"].split("\n")[1].strip()
 
 
     return generated_text
