@@ -1,7 +1,8 @@
 import streamlit as st
 import os
 
-
+cwd = os.getcwd()
+st.write(f"{os.listdir(cwd)}")
 os.chdir('web')
 cwd = os.getcwd()
 st.write(f"{os.listdir(cwd)}")
