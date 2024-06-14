@@ -1,10 +1,8 @@
 import streamlit as st
 import os
 
-cwd = os.getcwd()
-st.write(f"{cwd}")
-st.write(f"{os.listdir(cwd)}")
-os.chdir('pages')
+os.chdir('/mount/src/chatbot')
+os.chdir('web/pages')
 cwd = os.getcwd()
 st.write(f"{os.listdir(cwd)}")
 
