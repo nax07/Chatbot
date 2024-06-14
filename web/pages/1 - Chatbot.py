@@ -28,8 +28,8 @@ st.sidebar.subheader('Idioma')
 idioma = st.sidebar.selectbox(
     "Seleccionar idioma",
     ("Español", "Inglés", "Francés",
-     "Portugués", "Aleman", "Italiano",
-     "Ruso", "Chino (Mandarín)", "Árabe", "Hindi"),
+     "Aleman", "Italiano","Ruso",
+     "Chino (Mandarín)", "Árabe", "Hindi"),
 )
 
 st.sidebar.subheader('Configuraciones del Chat')
