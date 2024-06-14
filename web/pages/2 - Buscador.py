@@ -26,9 +26,6 @@ data_folder = os.path.join(cwd, 'web', 'pages', 'data')
 st.write("Contenido del directorio de trabajo actual:")
 st.write(os.listdir(data_folder))
 
-# Ruta de la carpeta de datos
-data_folder = 'data'
-
 # Obtener lista de archivos en la carpeta de datos
 files = os.listdir(data_folder)
 
