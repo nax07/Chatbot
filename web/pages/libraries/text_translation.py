@@ -62,6 +62,7 @@ def translator(text, language1, language2):
 
     modelo = f"Helsinki-NLP/opus-mt-{language1}-{language2}"
     pipe = pipeline('translation', model=modelo)
-    return translated_text = translator(text, max_length=5*len(text))[0]['translation_text']
+    translated_text = translator(text, max_length=5*len(text))[0]['translation_text']
+    return translated_text
 
     
