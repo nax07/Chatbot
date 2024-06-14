@@ -41,3 +41,27 @@ def translator_exec(text, translator):
 
     translated_text = translator(text, max_length=500)[0]['translation_text']
     return translated_text
+
+idioma_a_abreviacion = {
+    "Español": "es",
+    "Inglés": "en",
+    "Francés": "fr",
+    "Portugués": "pt",
+    "Alemán": "de",
+    "Italiano": "it",
+    "Ruso": "ru",
+    "Chino (Mandarín)": "zh",
+    "Árabe": "ar",
+    "Hindi": "hi"
+}
+
+def translator(text, language1, language2):
+
+    lan1 = idioma_a_abreviacion.get(language1)
+    lan2 = idioma_a_abreviacion.get(language2)
+
+    modelo = f"Helsinki-NLP/opus-mt-{language1}-{language2}"
+    pipe = pipeline('translation', model=modelo)
+    translated_text = translator(text, max_length=5*len(text))[0]['translation_text']
+
+    
