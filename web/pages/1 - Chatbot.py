@@ -19,6 +19,12 @@ idioma_a_abreviacion = {
     "Hindi": "hi"
 }
 
+modelos = {
+    "gpt2-medium": "openai-community/gpt2-medium",
+    "aa": "bb",
+    "dolly-v2-7b": "databricks/dolly-v2-7b"
+}
+
 st.title("Chatbot")
 
 # Sidebar
@@ -40,9 +46,9 @@ RAG = st.sidebar.checkbox("Activar RAG", key="enabled_RAG")
 Adv_prompts = st.sidebar.checkbox("Activar prompts avanzadas", key="enabled_prompts")
 
 # Selección del modelo de lenguaje en la barra lateral
-modelo = st.sidebar.selectbox(
+mod_selec = st.sidebar.selectbox(
     "Select LLM",
-    ("gpt2-medium", "banana phone", "19 $ fornite card"),
+    ("gpt2-medium", "banana phone", "dolly-v2-7b"),
 )
 
 # Botón para confirmar configuraciones
@@ -66,14 +72,15 @@ if prompt:
     if idioma != "Inglés":
         lan1 = idioma_a_abreviacion.get(idioma)
         lan2 = "en"
+        modelo = modelos.get(mod_selec)
         st.write(f"{lan1}")
         translated_prompt = translator(prompt, lan1, lan2)
-        retranslated_prompt = translator(translated_prompt, lan2, lan1)
+        solution = data_processing(translated_prompt, modelo, RAG, Adv_prompts)
+        response = translator(response, lan2, lan1)
     else:
-        translated_prompt = prompt
-        retranslated_prompt = propmt
+        response = data_processing(prompt, modelo, RAG, Adv_prompts)
+    
     
     st.session_state.messages.append({"role": "user", "content": prompt})
-    st.session_state.messages.append({"role": "assistant", "content": translated_prompt})
-    st.session_state.messages.append({"role": "assistant", "content": retranslated_prompt})
+    st.session_state.messages.append({"role": "assistant", "content": response})
     st.rerun()
