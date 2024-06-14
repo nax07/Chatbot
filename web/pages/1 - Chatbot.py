@@ -1,8 +1,8 @@
 import streamlit as st
 import os
 
-from web.pages.libraries.text_processing import *
-from web.pages.libraries.text_translation import *
+from libraries.text_processing import *
+from libraries.text_translation import *
 
 st.title("Chatbot")
 
