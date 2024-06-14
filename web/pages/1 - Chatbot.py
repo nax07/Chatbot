@@ -53,7 +53,7 @@ if prompt:
 
     st.write(option)
     if option != "Inglés":
-        translated_prompt = translator(text, option, "Inglés")
+        translated_prompt = translator(prompt, option, "Inglés")
     else:
         translated_prompt = prompt
     
