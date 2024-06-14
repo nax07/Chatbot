@@ -45,10 +45,10 @@ if selected_file:
                 if 'Images_URL' in data.columns:
                     st.markdown("**Imágenes:**")
                     img_list = ast.literal_eval(data.loc[index, 'Images_URL'])
-                    cols = st.beta_columns(len(img_urls))
-                    for i, (col, img_url) in enumerate(zip(cols, img_urls)):
-                            with col:
-                                st.image(img_url.strip(), caption=str(i+1), width=500//len(img_urls))
+                    cols = st.columns(len(img_urls))
+                    for i, img_url in enumerate(img_urls):
+                        with cols[i]:
+                            st.image(img_url.strip(), caption=str(i+1), width=200)
         else:
             column = st.selectbox("Seleccione la columna", data.columns)
             query = st.text_input(f"Ingrese el valor para buscar en la columna {column}")
