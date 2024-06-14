@@ -1,8 +1,6 @@
 import streamlit as st
 import os
 
-os.chdir('/mount/src/chatbot')
-
 from web.pages.libraries.text_processing import *
 from web.pages.libraries.text_translation import *
 
