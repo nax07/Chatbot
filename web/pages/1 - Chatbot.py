@@ -1,7 +1,6 @@
 import streamlit as st
 
 st.title("Chatbot")
-st.write("Opciones:")
 
 # Sidebar
 st.sidebar.title('Configuraciones')
@@ -25,7 +24,6 @@ if set_button:
     st.session_state.messages = []
         
 # Create space for the chatbot
-st.write('Chat')
 prompt = st.chat_input('¿Qué tal?')
 
 
