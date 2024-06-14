@@ -6,12 +6,9 @@ st.write(f"{os.listdir(cwd)}")
 os.chdir('pages')
 cwd = os.getcwd()
 st.write(f"{os.listdir(cwd)}")
-os.chdir('libraries')
-cwd = os.getcwd()
-st.write(f"{os.listdir(cwd)}")
 
-from web.pages.libraries.text_processing import *
-from web.pages.libraries.text_translation import *
+from libraries.text_processing import *
+from libraries.text_translation import *
 
 st.title("Chatbot")
 
