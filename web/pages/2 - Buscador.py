@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import os
+import ast
 
 # Función para cargar archivos según su extensión
 def load_file(file_path):
