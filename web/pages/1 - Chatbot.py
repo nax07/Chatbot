@@ -3,14 +3,17 @@ import streamlit as st
 st.title("Chatbot")
 
 # Sidebar
-st.sidebar.title('Configuraciones')
+st.sidebar.title('Opciones')
 
+st.sidebar.subheader('Idioma')
 option = st.sidebar.selectbox(
     "Select Languaje",
     ("Español", "Inglés", "Francés",
-    "Aleman", "Chino (Mandarín)", "Árabe"),
+     "Portugués", "Aleman", "Italiano",
+     "Ruso", "Chino (Mandarín)", "Árabe", "Hindi"),
 )
 
+st.sidebar.subheader('Configuraciones del Chat')
 # Opción para activar/desactivar RAG
 RAG = st.sidebar.checkbox("Enable RAG", key="enabled_RAG")
 
