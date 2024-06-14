@@ -13,13 +13,23 @@ def load_file(file_path):
         return pd.read_excel(file_path)
     else:
         return None
-st.title(f"Buscador {os.getcwd()}")
+        
+st.title(f"Buscador")
+
+# Imprimir el directorio de trabajo actual
+cwd = os.getcwd()
+st.write(f"Directorio de trabajo actual: {cwd}")
+
+# Listar el contenido del directorio de trabajo actual
+st.write("Contenido del directorio de trabajo actual:")
+st.write(os.listdir(cwd))
 
 # Ruta de la carpeta de datos
 data_folder = 'data'
 
 # Obtener lista de archivos en la carpeta de datos
 files = os.listdir(data_folder)
+
 files = [file for file in files if file.endswith(('csv', 'txt', 'xlsx'))]
 
 # Sidebar para seleccionar el archivo
