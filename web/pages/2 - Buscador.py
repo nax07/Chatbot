@@ -20,7 +20,7 @@ st.title(f"Buscador")
 cwd = os.getcwd()
 st.write(f"Directorio de trabajo actual: {cwd}")
 
-data_folder = os.path.join(cwd, 'web')
+data_folder = os.path.join(cwd, 'web', 'pages')
 
 # Listar el contenido del directorio de trabajo actual
 st.write("Contenido del directorio de trabajo actual:")
