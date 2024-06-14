@@ -3,6 +3,27 @@ import streamlit as st
 st.title("Chatbot")
 st.write("Opciones:")
 
+# Sidebar
+st.sidebar.title('Configuraciones')
+
+# Opción para activar/desactivar RAG
+RAG = st.sidebar.checkbox("Enable RAG", key="enabled_RAG")
+
+# Opción para activar/desactivar prompts avanzados
+Adv_prompts = st.sidebar.checkbox("Enable advanced prompts", key="enabled_prompts")
+
+# Selección del modelo de lenguaje en la barra lateral
+option = st.sidebar.selectbox(
+    "Select LLM",
+    ("gpt2-medium", "banana phone", "19 $ fornite card"),
+)
+
+# Botón para confirmar configuraciones
+set_button = st.sidebar.button("Confirmar Configuraciones")
+if set_button:
+    # Reset the chat history
+    st.session_state.messages = []
+
 # Initial column for configuration options
 col1, col2 = st.columns(2)
 
