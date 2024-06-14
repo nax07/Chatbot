@@ -3,6 +3,8 @@ import sys
 import os
 
 sys.path.append('/web/pages/libraries')
+
+st.write(f"{os.getcwd()}")
 from text_processing import *
 from text_translation import *
 
