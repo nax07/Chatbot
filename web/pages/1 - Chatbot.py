@@ -71,6 +71,7 @@ if prompt:
         retranslated_prompt = translator(prompt, lan2, lan1)
     else:
         translated_prompt = prompt
+        retranslated_prompt = propmt
     
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.session_state.messages.append({"role": "assistant", "content": translated_prompt})
