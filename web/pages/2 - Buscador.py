@@ -13,7 +13,7 @@ def load_file(file_path):
         return pd.read_excel(file_path)
     else:
         return None
-st.title("Buscador")
+st.title(f"Buscador {os.getcwd()}")
 
 # Ruta de la carpeta de datos
 data_folder = 'data'
