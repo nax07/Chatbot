@@ -27,7 +27,7 @@ option = st.sidebar.selectbox(
 )
 
 # Botón para confirmar configuraciones
-set_button = st.sidebar.button("Confirmar Configuraciones")
+set_button = st.sidebar.button("Confirmar Configuraciones / Limpiar historial")
 if set_button:
     # Reset the chat history
     st.session_state.messages = []
