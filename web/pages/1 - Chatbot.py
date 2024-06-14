@@ -46,6 +46,8 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 if prompt:
+
+    st.write(option)
     if option != "Inglés":
         translated_prompt = translator(text, option, "Inglés")
     else:
