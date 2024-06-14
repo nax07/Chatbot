@@ -1,13 +1,10 @@
 import streamlit as st
+import sys
 import os
 
-cwd = os.getcwd()
-st.write(f"{cwd}")
-data_folder = os.path.join(cwd, 'web', 'pages')
-st.write(f"{os.listdir(data_folder)}")
-
-from libraries.text_processing import *
-from libraries.text_translation import *
+sys.path.append('/web/pages/libraries')
+from text_processing import *
+from text_translation import *
 
 st.title("Chatbot")
 
