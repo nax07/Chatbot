@@ -45,8 +45,8 @@ if selected_file:
                 if 'Images_URL' in data.columns:
                     st.markdown("**Imágenes:**")
                     img_list = ast.literal_eval(data.loc[index, 'Images_URL'])
-                    cols = st.columns(len(img_urls))
-                    for i, img_url in enumerate(img_urls):
+                    cols = st.columns(len(img_list))
+                    for i, img_url in enumerate(img_list):
                         with cols[i]:
                             st.image(img_url.strip(), caption=str(i+1), width=200)
         else:
