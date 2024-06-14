@@ -45,10 +45,28 @@ if selected_file:
                 if 'Images_URL' in data.columns:
                     st.markdown("**Imágenes:**")
                     img_list = ast.literal_eval(data.loc[index, 'Images_URL'])
-                    cols = st.columns(len(img_list))
+                    
+                    # Añadir flechas para navegar entre las imágenes
+                    cols = st.columns(len(img_list) + 2)  # +2 para las flechas
+                    
+                    # Flecha izquierda para retroceder
+                    with cols[0]:
+                        if index > 0:
+                            if st.button("←"):
+                                index -= 1
+                                st.experimental_rerun()
+                    
+                    # Mostrar imágenes en el carrusel
                     for i, img_url in enumerate(img_list):
-                        with cols[i]:
+                        with cols[i + 1]:
                             st.image(img_url.strip(), caption=str(i+1))
+                            
+                    # Flecha derecha para avanzar
+                    with cols[len(img_list) + 1]:
+                        if index < len(data) - 1:
+                            if st.button("→"):
+                                index += 1
+                                st.experimental_rerun()
         else:
             column = st.selectbox("Seleccione la columna", data.columns)
             query = st.text_input(f"Ingrese el valor para buscar en la columna {column}")
