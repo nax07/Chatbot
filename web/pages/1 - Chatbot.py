@@ -2,6 +2,7 @@ import streamlit as st
 import os
 
 cwd = os.getcwd()
+st.write(f"{cwd}")
 st.write(f"{os.listdir(cwd)}")
 os.chdir('pages')
 cwd = os.getcwd()
