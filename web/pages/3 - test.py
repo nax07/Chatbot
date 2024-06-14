@@ -24,6 +24,17 @@ def initialize_session_state():
     if 'search_value' not in st.session_state:
         st.session_state.search_value = None
 
+# Función para obtener la lista de imágenes como lista de URLs
+def get_image_urls(image_str):
+    try:
+        img_list = ast.literal_eval(image_str)
+        if isinstance(img_list, list) and all(isinstance(url, str) for url in img_list):
+            return img_list
+        else:
+            return []
+    except (SyntaxError, ValueError):
+        return []
+
 st.title(f"Buscador")
 
 # Imprimir el directorio de trabajo actual
@@ -56,25 +67,30 @@ if selected_file:
                 # Mostrar las imágenes si están disponibles
                 if 'Images_URL' in data.columns and isinstance(data.loc[index, 'Images_URL'], str):
                     st.markdown("**Imágenes:**")
-                    img_list = ast.literal_eval(data.loc[index, 'Images_URL'])
+                    img_list = get_image_urls(data.loc[index, 'Images_URL'])
+                    
                     if img_list:  # Verificar si hay imágenes en la lista
-                        for i, img_url in enumerate(img_list, start=1):
-                            st.image(img_url.strip(), caption=f"{i} de {len(img_list)}")
+                        st.image(img_list[st.session_state.index], caption=f"Imagen {st.session_state.index + 1} de {len(img_list)}")
                         
-                        # Añadir flechas para navegar entre las imágenes
-                        cols = st.columns(2)  # 2 columnas para las flechas
+                        cols = st.columns(2)
                         
                         # Flecha izquierda para retroceder
                         with cols[0]:
                             if st.session_state.index > 0:
                                 if st.button("←"):
                                     st.session_state.index -= 1
+                            else:
+                                if st.button("←"):
+                                    st.session_state.index = len(img_list) - 1
                         
                         # Flecha derecha para avanzar
                         with cols[1]:
-                            if st.session_state.index < len(data) - 1:
+                            if st.session_state.index < len(img_list) - 1:
                                 if st.button("→"):
                                     st.session_state.index += 1
+                            else:
+                                if st.button("→"):
+                                    st.session_state.index = 0
                     else:
                         st.write("No hay imágenes disponibles para este índice.")
                 elif 'Images_URL' not in data.columns:
