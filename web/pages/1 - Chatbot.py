@@ -1,8 +1,11 @@
 import streamlit as st
 import os
+import sys
 
-from libraries.text_processing import *
-from libraries.text_translation import *
+sys.path.append('/mount/src/chatbot/web/pages/libraries')
+
+from text_processing import *
+from text_translation import *
 
 st.title("Chatbot")
 
