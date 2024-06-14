@@ -56,9 +56,6 @@ idioma_a_abreviacion = {
 }
 
 def translator(text, language1, language2):
-
-    lan1 = idioma_a_abreviacion.get(language1)
-    lan2 = idioma_a_abreviacion.get(language2)
     modelo = f"Helsinki-NLP/opus-mt-{lan1}-{lan2}"
     pipe = pipeline('translation', model=modelo)
     translated_text = pipe(text)[0]['translation_text']
