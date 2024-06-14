@@ -2,12 +2,12 @@ import streamlit as st
 import os
 
 os.chdir('/mount/src/chatbot')
-os.chdir('web/pages/libraries')
+os.chdir('web/pages')
 cwd = os.getcwd()
 st.write(f"{os.listdir(cwd)}")
 
-from text_processing import *
-from text_translation import *
+from from libraries.text_processing import *
+from libraries.text_translation import *
 
 st.title("Chatbot")
 
