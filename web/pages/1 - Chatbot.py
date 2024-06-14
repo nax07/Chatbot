@@ -7,6 +7,19 @@ sys.path.append('/mount/src/chatbot/web/pages/libraries')
 from text_processing import *
 from text_translation import *
 
+idioma_a_abreviacion = {
+    "Español": "es",
+    "Inglés": "en",
+    "Francés": "fr",
+    "Portugués": "pt",
+    "Alemán": "de",
+    "Italiano": "it",
+    "Ruso": "ru",
+    "Chino (Mandarín)": "zh",
+    "Árabe": "ar",
+    "Hindi": "hi"
+}
+
 st.title("Chatbot")
 
 # Sidebar
@@ -50,9 +63,12 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 if prompt:
-
+    
     if idioma != "Inglés":
-        translated_prompt = translator(prompt, idioma, "Inglés")
+        lan1 = idioma_a_abreviacion.get(idioma)
+        lan2 = "en"
+        st.write(f"{lan1}")
+        translated_prompt = translator(prompt, lan1, lan2)
     else:
         translated_prompt = prompt
     
