@@ -34,11 +34,6 @@ if selected_file:
     file_path = os.path.join(data_folder, selected_file)
     data = load_file(file_path)
     if data is not None:
-        st.write(f"Mostrando datos de {selected_file}")
-
-        # Mostrar la tabla completa
-        st.dataframe(data)
-
         # Buscador por nombre de columna
         search_option = st.radio("Buscar por", ('Índice', 'Nombre de columna'))
 
@@ -51,6 +46,11 @@ if selected_file:
             query = st.text_input(f"Ingrese el valor para buscar en la columna {column}")
             if st.button("Buscar"):
                 st.write(data[data[column].astype(str).str.contains(query, case=False, na=False)])
+
+        # Mostrar la tabla completa
+        #st.dataframe(data)
+
+        
     else:
         st.error("No se pudo cargar el archivo. Formato no soportado.")
 
