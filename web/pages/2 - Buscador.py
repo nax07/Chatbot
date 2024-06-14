@@ -44,7 +44,7 @@ if selected_file:
                 if 'Images_URL' in data.columns:
                     st.markdown("**Imágenes:**")
                     img_list = data.loc[index, 'Images_URL']
-                    st.write(img_list[0].strip())
+                    st.write(type(img_list))
                     for img_url in img_list:
                         st.write(f"{img_url}")
                         st.image(img_url.strip(), caption=img_url.strip(), width=200//len(img_list))
