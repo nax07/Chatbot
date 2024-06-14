@@ -41,6 +41,10 @@ if selected_file:
             index = st.number_input("Ingrese el índice", min_value=0, max_value=len(data)-1, step=1)
             if st.button("Buscar"):
                 st.write(data.iloc[index])
+                if 'Images_URL' in data.columns and isinstance(data.loc[index, 'Imagenes'], list):
+                    st.markdown("**Imágenes:**")
+                    for img_url in data.loc[index, 'Imagenes']:
+                        st.image(img_url.strip(), width=200)
         else:
             column = st.selectbox("Seleccione la columna", data.columns)
             query = st.text_input(f"Ingrese el valor para buscar en la columna {column}")
