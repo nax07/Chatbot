@@ -13,7 +13,7 @@ st.title("Chatbot")
 st.sidebar.title('Opciones')
 
 st.sidebar.subheader('Idioma')
-option = st.sidebar.selectbox(
+idioma = st.sidebar.selectbox(
     "Seleccionar idioma",
     ("Español", "Inglés", "Francés",
      "Portugués", "Aleman", "Italiano",
@@ -28,7 +28,7 @@ RAG = st.sidebar.checkbox("Activar RAG", key="enabled_RAG")
 Adv_prompts = st.sidebar.checkbox("Activar prompts avanzadas", key="enabled_prompts")
 
 # Selección del modelo de lenguaje en la barra lateral
-option = st.sidebar.selectbox(
+modelo = st.sidebar.selectbox(
     "Select LLM",
     ("gpt2-medium", "banana phone", "19 $ fornite card"),
 )
@@ -53,7 +53,7 @@ if prompt:
 
     st.write(option)
     if option != "Inglés":
-        translated_prompt = translator(prompt, option, "Inglés")
+        translated_prompt = translator(prompt, idioma, "Inglés")
     else:
         translated_prompt = prompt
     
