@@ -27,7 +27,7 @@ st.write(os.listdir(data_folder))
 # Obtener lista de archivos en la carpeta de datos
 files = os.listdir(data_folder)
 
-files = [file for file in files if file.endswith(('csv', 'txt', 'xlsx'))]
+files = [file for file in files if file.endswith(('csv', 'xlsx'))]
 
 
 # Sidebar para seleccionar el archivo
