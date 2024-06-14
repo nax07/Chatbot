@@ -6,7 +6,7 @@ st.write(f"{os.listdir(cwd)}")
 os.chdir('pages')
 cwd = os.getcwd()
 st.write(f"{os.listdir(cwd)}")
-os.chdir('pages')
+os.chdir('libraries')
 cwd = os.getcwd()
 st.write(f"{os.listdir(cwd)}")
 
