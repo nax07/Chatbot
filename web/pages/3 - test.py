@@ -49,33 +49,38 @@ if selected_file:
         st.session_state.search_option = st.radio("Buscar por", ('Índice', 'Nombre de columna'), index=0 if st.session_state.search_option == 'Índice' else 1)
         
         if st.session_state.search_option == 'Índice':
-            # Mostrar las imágenes si están disponibles
-            if 'Images_URL' in data.columns:
-                st.markdown("**Imágenes:**")
-                img_list_str = data.loc[st.session_state.index, 'Images_URL']
-                img_list = ast.literal_eval(img_list_str) if isinstance(img_list_str, str) else img_list_str
-                if img_list:  # Verificar si hay imágenes en la lista
-                    for i, img_url in enumerate(img_list, start=1):
-                        st.image(img_url.strip(), caption=f"{i} de {len(img_list)}")
-                    
-                    # Añadir flechas para navegar entre las imágenes
-                    cols = st.columns(2)  # 2 columnas para las flechas
-                    
-                    # Flecha izquierda para retroceder
-                    with cols[0]:
-                        if st.session_state.index > 0:
-                            if st.button("←"):
-                                st.session_state.index -= 1
-                    
-                    # Flecha derecha para avanzar
-                    with cols[1]:
-                        if st.session_state.index < len(data) - 1:
-                            if st.button("→"):
-                                st.session_state.index += 1
+            index = st.number_input("Ingrese el índice", min_value=0, max_value=len(data)-1, step=1)
+            if st.button("Buscar"):
+                st.write(data.iloc[index])
+                
+                # Mostrar las imágenes si están disponibles
+                if 'Images_URL' in data.columns and isinstance(data.loc[index, 'Images_URL'], str):
+                    st.markdown("**Imágenes:**")
+                    img_list = ast.literal_eval(data.loc[index, 'Images_URL'])
+                    if img_list:  # Verificar si hay imágenes en la lista
+                        for i, img_url in enumerate(img_list, start=1):
+                            st.image(img_url.strip(), caption=f"{i} de {len(img_list)}")
+                        
+                        # Añadir flechas para navegar entre las imágenes
+                        cols = st.columns(2)  # 2 columnas para las flechas
+                        
+                        # Flecha izquierda para retroceder
+                        with cols[0]:
+                            if st.session_state.index > 0:
+                                if st.button("←"):
+                                    st.session_state.index -= 1
+                        
+                        # Flecha derecha para avanzar
+                        with cols[1]:
+                            if st.session_state.index < len(data) - 1:
+                                if st.button("→"):
+                                    st.session_state.index += 1
+                    else:
+                        st.write("No hay imágenes disponibles para este índice.")
+                elif 'Images_URL' not in data.columns:
+                    st.write("Este archivo no contiene información de imágenes.")
                 else:
-                    st.write("No hay imágenes disponibles para este índice.")
-            else:
-                st.write("Este archivo no contiene información de imágenes.")
+                    st.write("Las imágenes para este índice no están en un formato válido.")
         
         else:
             column = st.selectbox("Seleccione la columna", data.columns)
