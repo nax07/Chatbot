@@ -6,7 +6,7 @@ os.chdir('web/pages')
 cwd = os.getcwd()
 st.write(f"{os.listdir(cwd)}")
 
-from from libraries.text_processing import *
+from libraries.text_processing import *
 from libraries.text_translation import *
 
 st.title("Chatbot")
