@@ -74,4 +74,4 @@ if prompt:
     
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.session_state.messages.append({"role": "assistant", "content": translated_prompt})
-    st.experimental_rerun()
+    st.st.rerun()
