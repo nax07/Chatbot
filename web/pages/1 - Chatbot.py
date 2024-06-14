@@ -51,8 +51,7 @@ for message in st.session_state.messages:
 
 if prompt:
 
-    st.write(option)
-    if option != "Inglés":
+    if idioma != "Inglés":
         translated_prompt = translator(prompt, idioma, "Inglés")
     else:
         translated_prompt = prompt
