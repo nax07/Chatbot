@@ -5,6 +5,12 @@ st.title("Chatbot")
 # Sidebar
 st.sidebar.title('Configuraciones')
 
+option = st.sidebar.selectbox(
+    "Select Languaje",
+    ("Español", "Inglés", "Francés",
+    "Aleman", "Chino (Mandarín)", "Árabe"),
+)
+
 # Opción para activar/desactivar RAG
 RAG = st.sidebar.checkbox("Enable RAG", key="enabled_RAG")
 
