@@ -20,10 +20,6 @@ st.title(f"Buscador")
 cwd = os.getcwd()
 data_folder = os.path.join(cwd, 'web', 'pages', 'data')
 
-# Listar el contenido del directorio de trabajo actual
-st.write("Contenido del directorio de trabajo actual:")
-st.write(os.listdir(data_folder))
-
 # Obtener lista de archivos en la carpeta de datos
 files = os.listdir(data_folder)
 
@@ -31,8 +27,8 @@ files = [file for file in files if file.endswith(('csv', 'xlsx'))]
 
 
 # Sidebar para seleccionar el archivo
-st.sidebar.header("Seleccione el archivo")
-selected_file = st.sidebar.selectbox("Archivos disponibles", files)
+st.header("Seleccione el archivo")
+selected_file = st.selectbox("Archivos disponibles", files)
 
 if selected_file:
     file_path = os.path.join(data_folder, selected_file)
@@ -57,6 +53,6 @@ if selected_file:
                 st.write(data[data[column].astype(str).str.contains(query, case=False, na=False)])
     else:
         st.error("No se pudo cargar el archivo. Formato no soportado.")
-st.title("Buscador")
+
 
 
