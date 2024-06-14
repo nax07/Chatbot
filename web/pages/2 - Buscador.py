@@ -43,6 +43,7 @@ if selected_file:
                 st.write(data.iloc[index])
                 if 'Images_URL' in data.columns:
                     st.markdown("**Imágenes:**")
+                    st.write(data.loc[index, 'Images_URL'])
                     for img_url in data.loc[index, 'Images_URL']:
                         st.write(f"{img_url}")
                         st.image(img_url, width=200)
