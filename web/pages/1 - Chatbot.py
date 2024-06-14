@@ -68,7 +68,7 @@ if prompt:
         lan2 = "en"
         st.write(f"{lan1}")
         translated_prompt = translator(prompt, lan1, lan2)
-        retranslated_prompt = translator(prompt, lan2, lan1)
+        retranslated_prompt = translator(translated_prompt, lan2, lan1)
     else:
         translated_prompt = prompt
         retranslated_prompt = propmt
