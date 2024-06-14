@@ -1,5 +1,10 @@
 import streamlit as st
 
+cwd = os.getcwd()
+st.write(f"{cwd}")
+data_folder = os.path.join(cwd, 'web', 'pages')
+st.write(f"os.listdir(data_folder)")
+
 from libraries.text_processing import *
 from libraries.text_translation import *
 
