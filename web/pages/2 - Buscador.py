@@ -47,7 +47,7 @@ if selected_file:
                     img_list = data.loc[index, 'Images_URL']
                     for img_url in img_list:
                         st.write(f"{img_url}")
-                        st.image(img_url, width=200//len(img_list))
+                        st.image(img_url.strip(), caption=img_url.strip(), width=200//len(img_list))
         else:
             column = st.selectbox("Seleccione la columna", data.columns)
             query = st.text_input(f"Ingrese el valor para buscar en la columna {column}")
