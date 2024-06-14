@@ -2,7 +2,7 @@ import streamlit as st
 import os
 
 cwd = os.getcwd()
-st.write(f"{os.listdir(data_folder)}")
+st.write(f"{os.listdir(cwd)}")
 
 from web.pages.libraries.text_processing import *
 from web.pages.libraries.text_translation import *
