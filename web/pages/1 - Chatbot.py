@@ -7,7 +7,7 @@ st.sidebar.title('Opciones')
 
 st.sidebar.subheader('Idioma')
 option = st.sidebar.selectbox(
-    "Select Languaje",
+    "Seleccionar idioma",
     ("Español", "Inglés", "Francés",
      "Portugués", "Aleman", "Italiano",
      "Ruso", "Chino (Mandarín)", "Árabe", "Hindi"),
@@ -15,10 +15,10 @@ option = st.sidebar.selectbox(
 
 st.sidebar.subheader('Configuraciones del Chat')
 # Opción para activar/desactivar RAG
-RAG = st.sidebar.checkbox("Enable RAG", key="enabled_RAG")
+RAG = st.sidebar.checkbox("Activar RAG", key="enabled_RAG")
 
 # Opción para activar/desactivar prompts avanzados
-Adv_prompts = st.sidebar.checkbox("Enable advanced prompts", key="enabled_prompts")
+Adv_prompts = st.sidebar.checkbox("Activar prompts avanzadas", key="enabled_prompts")
 
 # Selección del modelo de lenguaje en la barra lateral
 option = st.sidebar.selectbox(
@@ -33,7 +33,7 @@ if set_button:
     st.session_state.messages = []
         
 # Create space for the chatbot
-prompt = st.chat_input('¿Qué tal?')
+prompt = st.chat_input('Envía un mensaje')
 
 
 with st.container(border=True):
