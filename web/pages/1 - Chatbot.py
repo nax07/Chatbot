@@ -1,10 +1,10 @@
 import streamlit as st
 import os
 
+
+os.chdir('/web')
 cwd = os.getcwd()
 st.write(f"{os.listdir(cwd)}")
-os.chdir('/web/pages/libraries')
-
 
 from web.pages.libraries.text_processing import *
 from web.pages.libraries.text_translation import *
