@@ -36,16 +36,15 @@ if set_button:
 prompt = st.chat_input('Envía un mensaje')
 
 
-with st.container(border=True):
 
-    if "messages" not in st.session_state:
-            st.session_state.messages = []
-    
-    for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
-    
-    if prompt:
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        st.session_state.messages.append({"role": "assistant", "content": prompt})
-        st.experimental_rerun()
+if "messages" not in st.session_state:
+        st.session_state.messages = []
+
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+
+if prompt:
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.session_state.messages.append({"role": "assistant", "content": prompt})
+    st.experimental_rerun()
