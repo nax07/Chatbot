@@ -48,7 +48,7 @@ if selected_file:
                     cols = st.columns(len(img_list))
                     for i, img_url in enumerate(img_list):
                         with cols[i]:
-                            st.image(img_url.strip(), caption=str(i+1), width=200)
+                            st.image(img_url.strip(), caption=str(i+1))
         else:
             column = st.selectbox("Seleccione la columna", data.columns)
             query = st.text_input(f"Ingrese el valor para buscar en la columna {column}")
