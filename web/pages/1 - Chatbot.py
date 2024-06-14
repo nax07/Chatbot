@@ -68,11 +68,10 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 if prompt:
-    
+    modelo = modelos.get(mod_selec)
     if idioma != "Inglés":
         lan1 = idioma_a_abreviacion.get(idioma)
         lan2 = "en"
-        modelo = modelos.get(mod_selec)
         st.write(f"{lan1}")
         translated_prompt = translator(prompt, lan1, lan2)
         solution = data_processing(translated_prompt, modelo, RAG, Adv_prompts)
