@@ -18,8 +18,6 @@ st.title(f"Buscador")
 
 # Imprimir el directorio de trabajo actual
 cwd = os.getcwd()
-st.write(f"Directorio de trabajo actual: {cwd}")
-
 data_folder = os.path.join(cwd, 'web', 'pages', 'data')
 
 # Listar el contenido del directorio de trabajo actual
@@ -30,6 +28,7 @@ st.write(os.listdir(data_folder))
 files = os.listdir(data_folder)
 
 files = [file for file in files if file.endswith(('csv', 'txt', 'xlsx'))]
+
 
 # Sidebar para seleccionar el archivo
 st.sidebar.header("Seleccione el archivo")
