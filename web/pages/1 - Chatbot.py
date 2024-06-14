@@ -11,7 +11,6 @@ idioma_a_abreviacion = {
     "Español": "es",
     "Inglés": "en",
     "Francés": "fr",
-    "Portugués": "pt",
     "Alemán": "de",
     "Italiano": "it",
     "Ruso": "ru",
