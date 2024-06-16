@@ -37,9 +37,11 @@ if selected_file:
     if data is not None:
         # Buscador por nombre de columna
         search_option = st.radio("Buscar por", ('Índice', 'Nombre de columna'))
-
+        
         if search_option == 'Índice':
             index = st.number_input("Ingrese el índice", min_value=0, max_value=len(data)-1, step=1)
+            act = 0
+            
             if st.button("Buscar"):
                 st.write(data.iloc[index])
                 
@@ -48,7 +50,7 @@ if selected_file:
                     img_list = ast.literal_eval(data.loc[index, 'Images_URL'])
                     
                      # Mostrar la imagen actual
-                    act = 0
+                    
                     st.image(img_list[act].strip(), caption="1 de {}".format(len(img_list)))
                     
                     # Añadir flechas para navegar entre las imágenes
