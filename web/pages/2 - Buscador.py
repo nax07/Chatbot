@@ -42,6 +42,7 @@ if selected_file:
             index = st.number_input("Ingrese el índice", min_value=0, max_value=len(data)-1, step=1)
             if st.button("Buscar"):
                 st.write(data.iloc[index])
+                
                 if 'Images_URL' in data.columns:
                     st.markdown("**Imágenes:**")
                     img_list = ast.literal_eval(data.loc[index, 'Images_URL'])
@@ -58,14 +59,18 @@ if selected_file:
                         if index > 0:
                             if st.button("←"):
                                 act -= 1
-                                st.experimental_rerun()
+                                if act < 0:
+                                    act = len(img_list) - 1
+                                #st.experimental_rerun()
                     
                     # Flecha derecha para avanzar
                     with cols[1]:
                         if index < len(data) - 1:
                             if st.button("→"):
                                 act += 1
-                                st.experimental_rerun()
+                                if act > len(img_list) - 1:
+                                    act = 0
+                                #st.experimental_rerun()
                                 
         else:
             column = st.selectbox("Seleccione la columna", data.columns)
