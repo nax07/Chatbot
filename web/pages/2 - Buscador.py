@@ -61,8 +61,12 @@ if selected_file:
                                 act -= 1
                                 if act < 0:
                                     act = len(img_list) - 1
-                                #st.experimental_rerun()
-                    
+                                st.experimental_rerun()
+                                st.write(data.iloc[index])
+                                st.markdown("**Imágenes:**")
+                                img_list = ast.literal_eval(data.loc[index, 'Images_URL'])
+                                st.image(img_list[act].strip(), caption="1 de {}".format(len(img_list)))
+                                
                     # Flecha derecha para avanzar
                     with cols[1]:
                         if index < len(data) - 1:
@@ -70,7 +74,11 @@ if selected_file:
                                 act += 1
                                 if act > len(img_list) - 1:
                                     act = 0
-                                #st.experimental_rerun()
+                                st.experimental_rerun()
+                                st.write(data.iloc[index])
+                                st.markdown("**Imágenes:**")
+                                img_list = ast.literal_eval(data.loc[index, 'Images_URL'])
+                                st.image(img_list[act].strip(), caption="1 de {}".format(len(img_list)))
                                 
         else:
             column = st.selectbox("Seleccione la columna", data.columns)
