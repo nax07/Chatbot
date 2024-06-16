@@ -47,7 +47,8 @@ if selected_file:
                     img_list = ast.literal_eval(data.loc[index, 'Images_URL'])
                     
                      # Mostrar la imagen actual
-                    st.image(img_list[0].strip(), caption="1 de {}".format(len(img_list)))
+                    act = 0
+                    st.image(img_list[act].strip(), caption="1 de {}".format(len(img_list)))
                     
                     # Añadir flechas para navegar entre las imágenes
                     cols = st.columns(2)  # 2 columnas para las flechas
@@ -56,14 +57,14 @@ if selected_file:
                     with cols[0]:
                         if index > 0:
                             if st.button("←"):
-                                index -= 1
+                                act -= 1
                                 st.experimental_rerun()
                     
                     # Flecha derecha para avanzar
                     with cols[1]:
                         if index < len(data) - 1:
                             if st.button("→"):
-                                index += 1
+                                act += 1
                                 st.experimental_rerun()
                                 
         else:
