@@ -19,6 +19,7 @@ st.title(f"Buscador")
 
 "st.session_state object:", st.session_state
 
+st.write("Contenido de st.session_state:", dict(st.session_state))
 # Imprimir el directorio de trabajo actual
 cwd = os.getcwd()
 data_folder = os.path.join(cwd, 'web', 'pages', 'data')
@@ -84,4 +85,3 @@ if selected_file:
     else:
         st.error("No se pudo cargar el archivo. Formato no soportado.")
 
-st.write("hola")
