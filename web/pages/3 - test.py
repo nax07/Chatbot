@@ -53,7 +53,7 @@ if selected_file:
                     img_list = ast.literal_eval(data.loc[index, 'Images_URL'])
                     
                      # Mostrar la imagen actual
-                    st.image(img_list[act].strip(), caption="1 de {}".format(len(img_list)))
+                    st.image(img_list[st.session_state.act].strip(), caption="1 de {}".format(len(img_list)))
                     
                     # Añadir flechas para navegar entre las imágenes
                     cols = st.columns(2)  # 2 columnas para las flechas
