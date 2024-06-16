@@ -65,6 +65,7 @@ if selected_file:
                                 st.session_state["act"] -= 1
                                 if st.session_state["act"] < 0:
                                     st.session_state["act"] = len(img_list) - 1
+                                "after pressing button", st.session_state
                     
                     # Flecha derecha para avanzar
                     with cols[1]:
@@ -73,6 +74,7 @@ if selected_file:
                                 st.session_state["act"] += 1
                                 if st.session_state["act"] > len(img_list) - 1:
                                     st.session_state["act"] = 0
+                                "after pressing button", st.session_state
 
                                 
         else:
