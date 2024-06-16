@@ -43,7 +43,8 @@ if selected_file:
         
         if search_option == 'Índice':
             index = st.number_input("Ingrese el índice", min_value=0, max_value=len(data)-1, step=1)
-            act = 0
+            if "act" not in st.session_state:
+                st.session_state.act = 0
             
             if st.button("Buscar"):
                 st.write(data.iloc[index])
@@ -62,17 +63,17 @@ if selected_file:
                     with cols[0]:
                         if index > 0:
                             if st.button("←"):
-                                act -= 1
-                                if act < 0:
-                                    act = len(img_list) - 1
+                                st.session_state.act -= 1
+                                if st.session_state.act < 0:
+                                    st.session_state.act = len(img_list) - 1
                     
                     # Flecha derecha para avanzar
                     with cols[1]:
                         if index < len(data) - 1:
                             if st.button("→"):
-                                act += 1
-                                if act > len(img_list) - 1:
-                                    act = 0
+                                st.session_state.act += 1
+                                if st.session_state.act > len(img_list) - 1:
+                                    st.session_state.act = 0
 
                                 
         else:
