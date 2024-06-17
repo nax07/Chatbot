@@ -62,12 +62,16 @@ if st.session_state.selected_file:
                     # Flecha izquierda para retroceder
                     with cols[0]:
                         if st.button("←"):
-                            st.session_state["act"] = (st.session_state["act"] - 1) % len(img_list)
+                            st.session_state["act"] = (st.session_state["act"] - 1) 
+                            if st.session_state["act"] < 0:
+                                st.session_state["act"] = len(img_list) - 1
                     
                     # Flecha derecha para avanzar
                     with cols[1]:
                         if st.button("→"):
-                            st.session_state["act"] = (st.session_state["act"] + 1) % len(img_list)
+                            st.session_state["act"] = (st.session_state["act"] + 1)
+                            if st.session_state["act"] > len(img_list) - 1:
+                                st.session_state["act"] = 0
 
         else:
             column = st.selectbox("Seleccione la columna", data.columns, key="column")
