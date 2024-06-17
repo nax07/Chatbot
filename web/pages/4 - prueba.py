@@ -30,8 +30,6 @@ def callback():
 ## Aplicación
 st.title("Buscador")
 
-st.write(st.session_state)
-
 # Obtener lista de archivos en la carpeta de datos
 cwd = os.getcwd()
 data_folder = os.path.join(cwd, 'web', 'pages', 'data')
@@ -76,10 +74,10 @@ if selected_file:
                 st.image(img_list[st.session_state.pag].strip(), caption="{} de {}".format(st.session_state.pag + 1, len(img_list)))
                 
                 # Añadir flechas para navegar entre las imágenes
-                cols = st.columns(3)  # 2 columnas para las flechas
+                cols = st.columns(7)  # 2 columnas para las flechas
                 
                 # Flecha izquierda para retroceder
-                with cols[1]:
+                with cols[2]:
                     if st.button("←", on_click=callback()):
                         if st.session_state.pag > 0:
                             st.session_state.pag -= 1
@@ -87,7 +85,7 @@ if selected_file:
                             st.session_state.pag = len(img_list) - 1
                 
                 # Flecha derecha para avanzar
-                with cols[2]:
+                with cols[5]:
                     if st.button("→", on_click=callback()):
                         if st.session_state.pag < len(img_list) - 1:
                             st.session_state.pag += 1
