@@ -42,7 +42,7 @@ if selected_file:
         
         index = st.number_input("Ingrese el índice", min_value=0, max_value=len(data)-1)
         
-        if st.button("Buscar", on_click=callback()) or st.session_state.buscar:
+        if st.button("Buscar") or st.session_state.buscar:
             st.session_state.image_index = 0  # Reiniciar el índice de imagen al buscar un nuevo índice
             st.session_state.selected_index = index  # Guardar el índice seleccionado
             
@@ -60,7 +60,7 @@ if selected_file:
                 
                 # Flecha izquierda para retroceder
                 with cols[0]:
-                    if st.button("←"):
+                    if st.button("←", on_click=callback()):
                         if st.session_state.image_index > 0:
                             st.session_state.image_index -= 1
                         else:
@@ -69,7 +69,7 @@ if selected_file:
                 
                 # Flecha derecha para avanzar
                 with cols[1]:
-                    if st.button("→"):
+                    if st.button("→", on_click=callback()):
                         if st.session_state.image_index < len(img_list) - 1:
                             st.session_state.image_index += 1
                         else:
