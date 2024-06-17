@@ -18,6 +18,8 @@ def callback():
 ## Aplicación
 st.title("Buscador")
 
+st.write(st.session_state)
+
 # Obtener lista de archivos en la carpeta de datos
 cwd = os.getcwd()
 data_folder = os.path.join(cwd, 'web', 'pages', 'data')
