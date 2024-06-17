@@ -12,6 +12,10 @@ if "pag" not in st.session_state:
 if "buscar" not in st.session_state:
     st.session_state.buscar = False
 
+# Clicked
+if "clicked" not in st.session_state:
+    st.session_state.clicked = False
+
 ## Funciones
 # Función para cargar archivos
 def load_file(file_path):
