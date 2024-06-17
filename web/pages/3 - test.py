@@ -14,8 +14,8 @@ def load_file(file_path):
         return pd.read_excel(file_path)
     else:
         return None
-        
-st.title(f"Buscador")
+
+st.title("Buscador")
 
 # Imprimir el directorio de trabajo actual
 cwd = os.getcwd()
@@ -23,9 +23,7 @@ data_folder = os.path.join(cwd, 'web', 'pages', 'data')
 
 # Obtener lista de archivos en la carpeta de datos
 files = os.listdir(data_folder)
-
 files = [file for file in files if file.endswith(('csv', 'xlsx'))]
-
 
 # Sidebar para seleccionar el archivo
 st.header("Seleccione el archivo")
@@ -40,37 +38,39 @@ if selected_file:
         
         if search_option == 'Índice':
             index = st.number_input("Ingrese el índice", min_value=0, max_value=len(data)-1, step=1)
-            act = 0
             
             if st.button("Buscar"):
                 st.write(data.iloc[index])
                 
                 if 'Images_URL' in data.columns:
-                    st.markdown("**Imágenes:**")
+                    # Inicializar el estado de la imagen actual si no existe
+                    if 'image_index' not in st.session_state:
+                        st.session_state.image_index = 0
+                    
                     img_list = ast.literal_eval(data.loc[index, 'Images_URL'])
+                    current_image_index = st.session_state.image_index
                     
-                     # Mostrar la imagen actual
-                    
-                    st.image(img_list[act].strip(), caption="1 de {}".format(len(img_list)))
+                    # Mostrar la imagen actual
+                    st.image(img_list[current_image_index].strip(), caption="{} de {}".format(current_image_index + 1, len(img_list)))
                     
                     # Añadir flechas para navegar entre las imágenes
                     cols = st.columns(2)  # 2 columnas para las flechas
                     
                     # Flecha izquierda para retroceder
                     with cols[0]:
-                        if index > 0:
-                            if st.button("←"):
-                                act -= 1
-                                if act < 0:
-                                    act = len(img_list) - 1
-                                
+                        if st.button("←"):
+                            if current_image_index > 0:
+                                st.session_state.image_index -= 1
+                            else:
+                                st.session_state.image_index = len(img_list) - 1
+                    
                     # Flecha derecha para avanzar
                     with cols[1]:
-                        if index < len(data) - 1:
-                            if st.button("→"):
-                                act += 1
-                                if act > len(img_list) - 1:
-                                    act = 0
+                        if st.button("→"):
+                            if current_image_index < len(img_list) - 1:
+                                st.session_state.image_index += 1
+                            else:
+                                st.session_state.image_index = 0
                                 
         else:
             column = st.selectbox("Seleccione la columna", data.columns)
@@ -78,11 +78,5 @@ if selected_file:
             if st.button("Buscar"):
                 st.write(data[data[column].astype(str).str.contains(query, case=False, na=False)])
 
-        
     else:
         st.error("No se pudo cargar el archivo. Formato no soportado.")
-
-        st.button('Buscar', on_click=click_button("Buscar2"), type="primary")
-        
-        if st.session_state.Buscar2:
-            st.write(data[data[st.session_state.column].astype(str).str.contains(query, case=False, na=False)])
