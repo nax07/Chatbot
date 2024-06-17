@@ -17,7 +17,7 @@ def load_file(file_path):
 
 st.title("Buscador")
 
-
+st.write(st.session_state)
 
 # Imprimir el directorio de trabajo actual
 cwd = os.getcwd()
