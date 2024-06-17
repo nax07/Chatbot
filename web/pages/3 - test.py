@@ -51,7 +51,7 @@ if st.session_state.selected_file:
 
             st.button('Click me', on_click=click_button)
             
-            if st.session_state.clicked::
+            if st.session_state.clicked:
                 st.session_state.act = 0
                 st.write(data.iloc[st.session_state.file_index])
 
