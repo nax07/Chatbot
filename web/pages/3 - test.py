@@ -45,7 +45,7 @@ if st.session_state.selected_file:
             if "act" not in st.session_state:
                 st.session_state.act = 0
 
-            if st.button("Buscar"):
+            if st.button("Buscar", type="primary"):
                 st.session_state.act = 0
                 st.write(data.iloc[st.session_state.file_index])
 
