@@ -57,7 +57,7 @@ if selected_file:
         
         index = st.number_input("Ingrese el índice", min_value=0, max_value=len(data)-1)
         
-        if st.button("Buscar", on_click=clicked()) or st.session_state.buscar:
+        if st.button("Buscar", on_click=click()) or st.session_state.buscar:
 
             if st.session_state.clicked():
                 st.session_state.pag = 0
