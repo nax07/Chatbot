@@ -40,13 +40,12 @@ if selected_file:
             index = st.number_input("Ingrese el índice", min_value=0, max_value=len(data)-1, step=1)
             
             if st.button("Buscar"):
+                st.session_state.image_index = 0  # Reiniciar el índice de imagen al buscar un nuevo índice
+                st.session_state.selected_index = index  # Guardar el índice seleccionado
+                
                 st.write(data.iloc[index])
                 
                 if 'Images_URL' in data.columns:
-                    # Inicializar el estado de la imagen actual si no existe
-                    if 'image_index' not in st.session_state:
-                        st.session_state.image_index = 0
-                    
                     img_list = ast.literal_eval(data.loc[index, 'Images_URL'])
                     current_image_index = st.session_state.image_index
                     
@@ -59,19 +58,21 @@ if selected_file:
                     # Flecha izquierda para retroceder
                     with cols[0]:
                         if st.button("←"):
-                            if current_image_index > 0:
+                            if st.session_state.image_index > 0:
                                 st.session_state.image_index -= 1
                             else:
                                 st.session_state.image_index = len(img_list) - 1
+                            st.experimental_rerun()
                     
                     # Flecha derecha para avanzar
                     with cols[1]:
                         if st.button("→"):
-                            if current_image_index < len(img_list) - 1:
+                            if st.session_state.image_index < len(img_list) - 1:
                                 st.session_state.image_index += 1
                             else:
                                 st.session_state.image_index = 0
-                                
+                            st.experimental_rerun()
+
         else:
             column = st.selectbox("Seleccione la columna", data.columns)
             query = st.text_input(f"Ingrese el valor para buscar en la columna {column}")
