@@ -4,13 +4,13 @@ import os
 import ast
 
 ## Init
-# Botón
-if "buscar" not in st.session_state:
-    st.session_state.buscar = False
-
 # Página
 if "pag" not in st.session_state:
     st.session_state.pag = 0
+
+# Botón
+if "buscar" not in st.session_state:
+    st.session_state.buscar = False
 
 # Clicked
 if "clicked" not in st.session_state:
@@ -21,12 +21,14 @@ if "clicked" not in st.session_state:
 def load_file(file_path):
     return pd.read_csv(file_path)
 
+# Funciones para editar el session_state
 def callback():
     st.session_state.buscar=True
     st.session_state.clicked=False
 
 def click():
     st.session_state.clicked=True
+    st.session_state.buscar = False
 
 ## Aplicación
 st.title("Buscador")
@@ -65,11 +67,11 @@ if selected_file:
             st.write(data.iloc[index])
             
             if 'Images_URL' in data.columns:
+                # Lista de imágenes
                 img_list = ast.literal_eval(data.loc[index, 'Images_URL'])
-                current_image_index = st.session_state.pag
 
                 # Mostrar la imagen actual
-                st.image(img_list[current_image_index].strip(), caption="{} de {}".format(current_image_index + 1, len(img_list)))
+                st.image(img_list[st.session_state.pag].strip(), caption="{} de {}".format(st.session_state.pag + 1, len(img_list)))
                 
                 # Añadir flechas para navegar entre las imágenes
                 cols = st.columns(2)  # 2 columnas para las flechas
