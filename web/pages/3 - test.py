@@ -3,7 +3,6 @@ import pandas as pd
 import os
 import ast
 
-## Funciones
 # Función para cargar archivos según su extensión
 def load_file(file_path):
     ext = file_path.split('.')[-1]
@@ -16,103 +15,72 @@ def load_file(file_path):
     else:
         return None
         
-# Función para guardar el resultado de un botón
-def click_button(name):
-    st.session_state[name] = True
+st.title(f"Buscador")
 
-## Aplicación
-
-st.title("Buscador")
-
-# Obtener lista de archivos en la carpeta de datos
+# Imprimir el directorio de trabajo actual
 cwd = os.getcwd()
 data_folder = os.path.join(cwd, 'web', 'pages', 'data')
+
+# Obtener lista de archivos en la carpeta de datos
 files = os.listdir(data_folder)
+
 files = [file for file in files if file.endswith(('csv', 'xlsx'))]
 
-# Selección de archivo
+
+# Sidebar para seleccionar el archivo
 st.header("Seleccione el archivo")
-selected_file = st.selectbox("Archivos disponibles", files, key="selected_file")
+selected_file = st.selectbox("Archivos disponibles", files)
 
-# Inicializamos los botones
-if 'Buscar' not in st.session_state:
-    st.session_state.Buscar = False
-
-if 'Buscar2' not in st.session_state:
-    st.session_state.Buscar2 = False
-
-if '->' not in st.session_state:
-    st.session_state["->"] = False
-
-if '<-' not in st.session_state:
-    st.session_state["<-"] = False
-
-# Inicializamos indice de imagen
-if "act" not in st.session_state:
-            st.session_state.act = 0
-
-# Cuando se seleccione un archivo
-if st.session_state.selected_file:
-
-    # Cargamos los datos
+if selected_file:
     file_path = os.path.join(data_folder, selected_file)
     data = load_file(file_path)
-
-    # Selección de si buscamos por índice o por columna
-    search_option = st.radio("Buscar por", ('Índice', 'Nombre de columna'), key="search_option")
-
-    # Busqueda por índice
-    if st.session_state.search_option == 'Índice':
+    if data is not None:
+        # Buscador por nombre de columna
+        search_option = st.radio("Buscar por", ('Índice', 'Nombre de columna'))
         
-        index = st.number_input("Ingrese el índice", min_value=0, max_value=len(data)-1, key="file_index")
-
-        st.button('Buscar', on_click=click_button("Buscar"), type="primary")
-
-        # Cuando se dé al botón de buscar
-        if st.session_state.Buscar:
-
-            # Se muestran los datos del índice
-            st.write(data.iloc[st.session_state.file_index])
-
-            # Si entre las columnas, el dataframe tiene imágenes
-            if 'Images_URL' in data.columns:
-
-                # Reseteamos el índice de la imagen a 0
-                st.session_state.act = 0
-
-                # Mostramos las imágenes
-                st.markdown("**Imágenes:**")
-
-                # Lista de todas las imágenes del índice
-                img_list = ast.literal_eval(data.loc[st.session_state.file_index, 'Images_URL'])
-
-                # Mostrar la imagen actual
-                st.image(img_list[st.session_state["act"]].strip(), caption=f"Imagen {st.session_state['act'] + 1} de {len(img_list)}")
-
-                # Añadir flechas para navegar entre las imágenes
-                cols = st.columns(2)  # 2 columnas para las flechas
-
-                # Flecha izquierda para retroceder
-                with cols[0]:
-                    st.button("←", on_click=click_button("<-"))
-                    if st.session_state["<-"]:
-                        st.session_state["act"] = (st.session_state["act"] - 1) 
-                        if st.session_state["act"] < 0:
-                            st.session_state["act"] = len(img_list) - 1
+        if search_option == 'Índice':
+            index = st.number_input("Ingrese el índice", min_value=0, max_value=len(data)-1, step=1)
+            act = 0
+            
+            if st.button("Buscar"):
+                st.write(data.iloc[index])
                 
-                # Flecha derecha para avanzar
-                with cols[1]: 
-                    st.button("→", on_click=click_button("->"))
-                    if st.session_state["->"]:
-                        st.session_state["act"] = (st.session_state["act"] + 1)
-                        if st.session_state["act"] > len(img_list) - 1:
-                            st.session_state["act"] = 0
-                        
+                if 'Images_URL' in data.columns:
+                    st.markdown("**Imágenes:**")
+                    img_list = ast.literal_eval(data.loc[index, 'Images_URL'])
+                    
+                     # Mostrar la imagen actual
+                    
+                    st.image(img_list[act].strip(), caption="1 de {}".format(len(img_list)))
+                    
+                    # Añadir flechas para navegar entre las imágenes
+                    cols = st.columns(2)  # 2 columnas para las flechas
+                    
+                    # Flecha izquierda para retroceder
+                    with cols[0]:
+                        if index > 0:
+                            if st.button("←"):
+                                act -= 1
+                                if act < 0:
+                                    act = len(img_list) - 1
+                                
+                    # Flecha derecha para avanzar
+                    with cols[1]:
+                        if index < len(data) - 1:
+                            if st.button("→"):
+                                act += 1
+                                if act > len(img_list) - 1:
+                                    act = 0
+                                
+        else:
+            column = st.selectbox("Seleccione la columna", data.columns)
+            query = st.text_input(f"Ingrese el valor para buscar en la columna {column}")
+            if st.button("Buscar"):
+                st.write(data[data[column].astype(str).str.contains(query, case=False, na=False)])
 
-    # Si se busca por el nombre de la columna
+        
     else:
-        column = st.selectbox("Seleccione la columna", data.columns, key="column")
-        query = st.text_input(f"Ingrese el valor para buscar en la columna {st.session_state.column}")
+        st.error("No se pudo cargar el archivo. Formato no soportado.")
 
         st.button('Buscar', on_click=click_button("Buscar2"), type="primary")
         
