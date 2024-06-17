@@ -59,7 +59,7 @@ if selected_file:
         
         if st.button("Buscar", on_click=click()) or st.session_state.buscar:
 
-            if st.session_state.clicked():
+            if st.session_state.clicked:
                 st.session_state.pag = 0
             
             st.write(data.iloc[index])
