@@ -17,6 +17,8 @@ def load_file(file_path):
 
 st.title("Buscador")
 
+
+
 # Imprimir el directorio de trabajo actual
 cwd = os.getcwd()
 data_folder = os.path.join(cwd, 'web', 'pages', 'data')
@@ -27,26 +29,29 @@ files = [file for file in files if file.endswith(('csv', 'xlsx'))]
 
 # Sidebar para seleccionar el archivo
 st.header("Seleccione el archivo")
-selected_file = st.selectbox("Archivos disponibles", files)
+selected_file = st.selectbox("Archivos disponibles", files, key="selected_file")
 
-if selected_file:
+
+
+if st.session_state.selected_file:
     file_path = os.path.join(data_folder, selected_file)
     data = load_file(file_path)
     if data is not None:
         # Buscador por nombre de columna
-        search_option = st.radio("Buscar por", ('Índice', 'Nombre de columna'))
-
-        if search_option == 'Índice':
-            index = st.number_input("Ingrese el índice", min_value=0, max_value=len(data)-1, step=1)
+        search_option = st.radio("Buscar por", ('Índice', 'Nombre de columna'), key="search_option")
+        
+        if st.session_state.search_option == 'Índice':
+            index = st.number_input("Ingrese el índice", min_value=0, max_value=len(data)-1, step=1, key="file_index")
             if "act" not in st.session_state:
                 st.session_state.act = 0
 
             if st.button("Buscar"):
-                st.write(data.iloc[index])
+                st.session_state.act = 0
+                st.write(data.iloc[st.session_state.file_index])
 
                 if 'Images_URL' in data.columns:
                     st.markdown("**Imágenes:**")
-                    img_list = ast.literal_eval(data.loc[index, 'Images_URL'])
+                    img_list = ast.literal_eval(data.loc[st.session_state.file_index, 'Images_URL'])
 
                     # Mostrar la imagen actual
                     st.image(img_list[st.session_state["act"]].strip(), caption=f"Imagen {st.session_state['act'] + 1} de {len(img_list)}")
@@ -65,10 +70,7 @@ if selected_file:
                             st.session_state["act"] = (st.session_state["act"] + 1) % len(img_list)
 
         else:
-            column = st.selectbox("Seleccione la columna", data.columns)
-            query = st.text_input(f"Ingrese el valor para buscar en la columna {column}")
+            column = st.selectbox("Seleccione la columna", data.columns, key="column")
+            query = st.text_input(f"Ingrese el valor para buscar en la columna {st.session_state.column}")
             if st.button("Buscar"):
-                st.write(data[data[column].astype(str).str.contains(query, case=False, na=False)])
-
-    else:
-        st.error("No se pudo cargar el archivo. Formato no soportado.")
+                st.write(data[data[st.session_state.column].astype(str).str.contains(query, case=False, na=False)])
