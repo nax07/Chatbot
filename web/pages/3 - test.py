@@ -103,7 +103,7 @@ if st.session_state.selected_file:
                 # Flecha derecha para avanzar
                 with cols[1]: 
                     st.button("→", on_click=click_button("->"))
-                    if st.session_state["-"]>:
+                    if st.session_state["->"]:
                         st.session_state["act"] = (st.session_state["act"] + 1)
                         if st.session_state["act"] > len(img_list) - 1:
                             st.session_state["act"] = 0
