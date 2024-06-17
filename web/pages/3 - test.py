@@ -40,7 +40,7 @@ if selected_file:
     # Índice
     if search_option == 'Índice':
         
-        index = st.number_input("Ingrese el índice", min_value=0, max_value=len(data)-1, step=1)
+        index = st.number_input("Ingrese el índice", min_value=0, max_value=len(data)-1)
         
         if st.button("Buscar", on_click=callback()) or st.session_state.buscar:
             st.session_state.image_index = 0  # Reiniciar el índice de imagen al buscar un nuevo índice
