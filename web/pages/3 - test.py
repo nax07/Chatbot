@@ -3,9 +3,14 @@ import pandas as pd
 import os
 import ast
 
-## Init botón
+## Init
+# Botón
 if "buscar" not in st.session_state:
     st.session_state.buscar = False
+
+# Página
+if "pag" not in st.session_state:
+    st.session_state.pag = 0
 
 ## Funciones
 # Función para cargar archivos
@@ -45,17 +50,18 @@ if selected_file:
         index = st.number_input("Ingrese el índice", min_value=0, max_value=len(data)-1)
         
         if st.button("Buscar") or st.session_state.buscar:
-            st.session_state.image_index = 0  # Reiniciar el índice de imagen al buscar un nuevo índice
-            st.session_state.selected_index = index  # Guardar el índice seleccionado
             
             st.write(data.iloc[index])
             
             if 'Images_URL' in data.columns:
                 img_list = ast.literal_eval(data.loc[index, 'Images_URL'])
-                current_image_index = st.session_state.image_index
+                current_image_index = st.session_state.pag
+
+                if st.session_state.pag > len(img_list) - 1 or st.session_state.pag < 0:
+                    st.session_state.pag = 0
                 
                 # Mostrar la imagen actual
-                st.image(img_list[current_image_index].strip(), caption="{} de {}".format(current_image_index + 1, len(img_list)))
+                st.image(img_list[current_image_pag].strip(), caption="{} de {}".format(current_image_index + 1, len(img_list)))
                 
                 # Añadir flechas para navegar entre las imágenes
                 cols = st.columns(2)  # 2 columnas para las flechas
@@ -63,20 +69,18 @@ if selected_file:
                 # Flecha izquierda para retroceder
                 with cols[0]:
                     if st.button("←", on_click=callback()):
-                        if st.session_state.image_index > 0:
-                            st.session_state.image_index -= 1
+                        if st.session_state.pag > 0:
+                            st.session_state.pag -= 1
                         else:
-                            st.session_state.image_index = len(img_list) - 1
-                        st.rerun()
+                            st.session_state.pag = len(img_list) - 1
                 
                 # Flecha derecha para avanzar
                 with cols[1]:
                     if st.button("→", on_click=callback()):
-                        if st.session_state.image_index < len(img_list) - 1:
-                            st.session_state.image_index += 1
+                        if st.session_state.pag < len(img_list) - 1:
+                            st.session_state.pag += 1
                         else:
-                            st.session_state.image_index = 0
-                        st.rerun()
+                            st.session_state.pag = 0
 
     # Nombre de columna
     else:
