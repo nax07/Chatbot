@@ -12,6 +12,10 @@ if "buscar" not in st.session_state:
 if "pag" not in st.session_state:
     st.session_state.pag = 0
 
+# Clicked
+if "clicked" not in st.session_state:
+    st.session_state.clicked = False
+
 ## Funciones
 # Función para cargar archivos
 def load_file(file_path):
@@ -19,6 +23,10 @@ def load_file(file_path):
 
 def callback():
     st.session_state.buscar=True
+    st.session_state.clicked=False
+
+def click():
+    st.session_state.clicked=True
 
 ## Aplicación
 st.title("Buscador")
@@ -49,7 +57,10 @@ if selected_file:
         
         index = st.number_input("Ingrese el índice", min_value=0, max_value=len(data)-1)
         
-        if st.button("Buscar") or st.session_state.buscar:
+        if st.button("Buscar", on_click=clicked()) or st.session_state.buscar:
+
+            if st.session_state.clicked():
+                st.session_state.pag = 0
             
             st.write(data.iloc[index])
             
@@ -57,9 +68,6 @@ if selected_file:
                 img_list = ast.literal_eval(data.loc[index, 'Images_URL'])
                 current_image_index = st.session_state.pag
 
-                if st.session_state.pag > len(img_list) - 1 or st.session_state.pag < 0:
-                    st.session_state.pag = 0
-                
                 # Mostrar la imagen actual
                 st.image(img_list[current_image_index].strip(), caption="{} de {}".format(current_image_index + 1, len(img_list)))
                 
