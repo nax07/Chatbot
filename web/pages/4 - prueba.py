@@ -70,9 +70,6 @@ if selected_file:
                 # Lista de imágenes
                 img_list = ast.literal_eval(data.loc[index, 'Images_URL'])
 
-                # Mostrar la imagen actual
-                st.image(img_list[st.session_state.pag].strip(), caption="{} de {}".format(st.session_state.pag + 1, len(img_list)))
-                
                 # Añadir flechas para navegar entre las imágenes
                 cols = st.columns(7)  # 2 columnas para las flechas
                 
@@ -92,6 +89,11 @@ if selected_file:
                         else:
                             st.session_state.pag = 0
         
+
+                # Mostrar la imagen actual
+                st.image(img_list[st.session_state.pag].strip(), caption="{} de {}".format(st.session_state.pag + 1, len(img_list)))
+                
+                
       
 
     # Nombre de columna
