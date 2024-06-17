@@ -93,7 +93,7 @@ if st.session_state.selected_file:
                 cols = st.columns(2)  # 2 columnas para las flechas
 
                 # Flecha izquierda para retroceder
-                 with cols[0]:
+                with cols[0]:
                     st.button("←", on_click=click_button("<-"))
                     if st.session_state["<-"]:
                         st.session_state["act"] = (st.session_state["act"] - 1) 
