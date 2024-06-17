@@ -61,7 +61,7 @@ if selected_file:
                     st.session_state.pag = 0
                 
                 # Mostrar la imagen actual
-                st.image(img_list[current_image_pag].strip(), caption="{} de {}".format(current_image_index + 1, len(img_list)))
+                st.image(img_list[current_image_index].strip(), caption="{} de {}".format(current_image_index + 1, len(img_list)))
                 
                 # Añadir flechas para navegar entre las imágenes
                 cols = st.columns(2)  # 2 columnas para las flechas
