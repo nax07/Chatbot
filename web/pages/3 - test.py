@@ -65,7 +65,7 @@ if selected_file:
                             st.session_state.image_index -= 1
                         else:
                             st.session_state.image_index = len(img_list) - 1
-                        st.experimental_rerun()
+                        st.rerun()
                 
                 # Flecha derecha para avanzar
                 with cols[1]:
@@ -74,7 +74,7 @@ if selected_file:
                             st.session_state.image_index += 1
                         else:
                             st.session_state.image_index = 0
-                        st.experimental_rerun()
+                        st.rerun()
 
     # Nombre de columna
     else:
