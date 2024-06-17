@@ -31,7 +31,11 @@ files = [file for file in files if file.endswith(('csv', 'xlsx'))]
 st.header("Seleccione el archivo")
 selected_file = st.selectbox("Archivos disponibles", files, key="selected_file")
 
+if 'clicked' not in st.session_state:
+    st.session_state.clicked = False
 
+def click_button():
+    st.session_state.clicked = True
 
 if st.session_state.selected_file:
     file_path = os.path.join(data_folder, selected_file)
@@ -45,7 +49,9 @@ if st.session_state.selected_file:
             if "act" not in st.session_state:
                 st.session_state.act = 0
 
-            if st.button("Buscar", type="primary"):
+            st.button('Click me', on_click=click_button)
+            
+            if st.session_state.clicked::
                 st.session_state.act = 0
                 st.write(data.iloc[st.session_state.file_index])
 
