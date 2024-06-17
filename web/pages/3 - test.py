@@ -27,7 +27,6 @@ def callback():
 
 def click():
     st.session_state.clicked=True
-    st.session_state.buscar=True
 
 ## Aplicación
 st.title("Buscador")
