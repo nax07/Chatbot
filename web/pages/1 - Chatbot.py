@@ -28,8 +28,8 @@ if "messages" not in st.session_state:
 
 ## Variables
 idioma_a_abreviacion = {
-    "Español": "es",
     "Inglés": "en",
+    "Español": "es",
     "Francés": "fr",
     "Alemán": "de",
     "Italiano": "it",
@@ -40,8 +40,8 @@ idioma_a_abreviacion = {
 }
 
 modelos = {
-    "gpt2-medium": "openai-community/gpt2-medium",
-    "aa": "bb",
+    "gpt2": "openai-community/gpt2",
+    "Qwen-VL": "Qwen/Qwen-VL-Chat",
     "dolly-v2-7b": "databricks/dolly-v2-7b"
 }
 
