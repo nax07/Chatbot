@@ -127,6 +127,3 @@ if prompt:
             st.warning("Idioma no especificado. Por favor, seleccione un idioma y confirme las configuraciones.")
     else:
         st.warning("El modelo no está cargado. Por favor, seleccione el modelo y confirme las configuraciones.")
-else:
-    st.warning("No se proporcionó ningún mensaje. Por favor, ingrese un mensaje.")
-        
