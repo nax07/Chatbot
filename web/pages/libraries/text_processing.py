@@ -12,6 +12,6 @@ def data_processing(text, modelo, RAG=False, Adv_prompts=False):
     generated_text = pipe(prompt, max_length=100, num_return_sequences=1, truncation=True)
     
     # Extract the generated answer from the result
-    generated_text = generated_text[0]["generated_text"].split("\n")[1].strip()
+    #generated_text = generated_text[0]["generated_text"].split("\n")[1].strip()
     
     return generated_text
