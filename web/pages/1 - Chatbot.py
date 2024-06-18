@@ -75,7 +75,7 @@ if prompt:
         st.write(f"{lan1}")
         translated_prompt = translator(prompt, lan1, lan2)
         solution = data_processing(translated_prompt, modelo, RAG, Adv_prompts)
-        response = translator(response, lan2, lan1)
+        response = translator(solution, lan2, lan1)
     else:
         response = data_processing(prompt, modelo, RAG, Adv_prompts)
     
