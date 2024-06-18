@@ -1,7 +1,7 @@
 from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
 
 def model_loading(modelo):
-    return pipeline("text-generation", model=modelo)
+    return pipeline("text-generation", model=modelo, trust_remote_code=True)
 
 def data_processing(text, pipe, RAG=False, Adv_prompts=False):
     prompt = f"Question: {text}.\nAnswer:"
