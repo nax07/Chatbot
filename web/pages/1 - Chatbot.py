@@ -7,6 +7,26 @@ sys.path.append('/mount/src/chatbot/web/pages/libraries')
 from text_processing import *
 from text_translation import *
 
+## Inicialize session state
+if "idioma" not in st.session_state:
+        st.session_state.idioma = "Inglés"
+
+if "modelo" not in st.session_state:
+        st.session_state.modelo = "gpt2-medium"
+
+if "lan_en" not in st.session_state:
+        st.session_state.lan_en = False
+    
+if "en_lan" not in st.session_state:
+        st.session_state.en_lan = False
+
+if "process" not in st.session_state:
+        st.session_state.process = False
+    
+if "messages" not in st.session_state:
+        st.session_state.messages = []
+
+## Variables
 idioma_a_abreviacion = {
     "Español": "es",
     "Inglés": "en",
@@ -25,6 +45,7 @@ modelos = {
     "dolly-v2-7b": "databricks/dolly-v2-7b"
 }
 
+## APP
 st.title("Chatbot")
 
 # Sidebar
@@ -52,16 +73,18 @@ mod_selec = st.sidebar.selectbox(
 )
 
 # Botón para confirmar configuraciones
-set_button = st.sidebar.button("Confirmar Configuraciones / Limpiar historial")
 
-if "lan_en" not in st.session_state:
-        st.session_state.lan_en = False
-    
-if "en_lan" not in st.session_state:
-        st.session_state.en_lan = False
+cols = st.columns(2)
 
-if "process" not in st.session_state:
-        st.session_state.process = False
+with cols[0]:
+    set_button = st.sidebar.button("Confirmar Configuraciones")
+
+with cols[1]:
+    clc_historial = st.sidebar.button("Limpiar historial")
+
+if clc_historial:
+    # Reset the chat history
+    st.session_state.messages = []
 
 if set_button:
     # Reset the chat history
@@ -69,7 +92,8 @@ if set_button:
 
     # Set selected configurations
     modelo = modelos.get(mod_selec)
-    st.session_state.process = model_loading(modelo)
+    if modelo != st.session_state.process:
+        st.session_state.process = model_loading(modelo)
     if idioma != "Inglés":
         lan1 = idioma_a_abreviacion.get(idioma)
         lan2 = "en"
@@ -79,8 +103,7 @@ if set_button:
 # Create space for the chatbot
 prompt = st.chat_input('Envía un mensaje')
 
-if "messages" not in st.session_state:
-        st.session_state.messages = []
+
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
