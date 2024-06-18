@@ -2,8 +2,6 @@ from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
 
 def data_processing(text, modelo, RAG=False, Adv_prompts=False):
     pipe = pipeline("text-generation", model=modelo)
-    tokenizer = AutoTokenizer.from_pretrained(modelo)
-    model = AutoModelForCausalLM.from_pretrained(modelo)
     
     # Construct prompt based on RAG and Adv_prompts flags
     prompt = f"Question: {text}.\nAnswer:"
