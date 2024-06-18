@@ -1,9 +1,12 @@
 from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
 
-def data_processing(text, modelo, RAG=False, Adv_prompts=False):
-    pipe = pipeline("text-generation", model=modelo)
+def model_loading(modelo):
+    return pipeline("text-generation", model=modelo)
+
+
+def data_processing(text, pipe, RAG=False, Adv_prompts=False):
     
-    # Construct prompt based on RAG and Adv_prompts flags
+    # Prompt
     prompt = f"Question: {text}.\nAnswer:"
     
     # Generate text using the pipeline
