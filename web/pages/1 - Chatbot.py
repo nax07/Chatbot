@@ -56,6 +56,13 @@ set_button = st.sidebar.button("Confirmar Configuraciones / Limpiar historial")
 if set_button:
     # Reset the chat history
     st.session_state.messages = []
+    modelo = modelos.get(mod_selec)
+    process_pipe = model_loading(modelo)
+    if idioma != "Inglés":
+        lan1 = idioma_a_abreviacion.get(idioma)
+        lan2 = "en"
+        lan_en_pipe = load_translator(lan1, lan2)
+        en_lan_pipe = load_translator(lan2, lan1)
         
 # Create space for the chatbot
 prompt = st.chat_input('Envía un mensaje')
@@ -68,17 +75,12 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 if prompt:
-    modelo = modelos.get(mod_selec)
     if idioma != "Inglés":
-        lan1 = idioma_a_abreviacion.get(idioma)
-        lan2 = "en"
-        st.write(f"{lan1}")
-        translated_prompt = translator(prompt, lan1, lan2)
-        solution = data_processing(translated_prompt, modelo, RAG, Adv_prompts)
-        response = solution
-        #response = translator(solution, lan2, lan1)
+        translated_prompt = translator(prompt, lan_en_pipe)
+        solution = data_processing(translated_prompt, process_pipe, RAG, Adv_prompts)
+        response = translator(solution, en_lan_pipe)
     else:
-        response = data_processing(prompt, modelo, RAG, Adv_prompts)
+        response = data_processing(prompt, process_pipe, RAG, Adv_prompts)
     
     
     st.session_state.messages.append({"role": "user", "content": prompt})
