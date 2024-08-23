@@ -128,7 +128,7 @@ if prompt:
             
             
             st.session_state.messages.append({"role": "user", "content": prompt})
-                st.session_state.messages.append({"role": "user", "content": modelo})
+            st.session_state.messages.append({"role": "user", "content": modelo})
             st.session_state.messages.append({"role": "assistant", "content": response})
             st.rerun()
         else:
