@@ -47,7 +47,7 @@ idioma_a_abreviacion = {
 modelos = {
     "gpt2": "openai-community/gpt2",
     "Qwen-VL": "Qwen/Qwen-VL-Chat",
-    "dolly-v2-12b": "databricks/dbrx-base"
+    "dolly-v2-7b": "databricks/dolly-v2-7b"
 }
 
 
@@ -76,7 +76,7 @@ Adv_prompts = st.sidebar.checkbox("Activar prompts avanzadas", key="enabled_prom
 # Selección del modelo de lenguaje en la barra lateral
 mod_selec = st.sidebar.selectbox(
     "Select LLM",
-    ("gpt2-medium", "banana phone", "dolly-v2-12b"),
+    ("gpt2-medium", "banana phone", "dolly-v2-7b"),
 )
 
 # Botón para confirmar configuraciones
