@@ -47,7 +47,7 @@ idioma_a_abreviacion = {
 modelos = {
     "gpt2": "openai-community/gpt2",
     "Qwen-VL": "Qwen/Qwen-VL-Chat",
-    "dolly-v2-12b": "databricks/dolly-v2-12b"
+    "dolly-v2-12b": "databricks/dbrx-base"
 }
 
 
