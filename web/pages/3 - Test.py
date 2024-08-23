@@ -76,7 +76,7 @@ Adv_prompts = st.sidebar.checkbox("Activar prompts avanzadas", key="enabled_prom
 # Selección del modelo de lenguaje en la barra lateral
 mod_selec = st.sidebar.selectbox(
     "Select LLM",
-    ("gpt2-medium", "banana phone", "dolly-v2-7b"),
+    ("gpt2-medium", "banana phone", "dolly-v2-12b"),
 )
 
 # Botón para confirmar configuraciones
