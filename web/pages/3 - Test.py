@@ -108,7 +108,7 @@ if set_button:
         st.session_state.en_lan = load_translator(lan2, lan1)
         
 # Create space for the chatbot
-prompt = st.chat_input('Envía un mensaje')
+prompt = st.chat_input(f'Envía un mensaje {modelo}')
 
 
 
@@ -128,7 +128,6 @@ if prompt:
             
             
             st.session_state.messages.append({"role": "user", "content": prompt})
-            st.write(modelo)
             st.session_state.messages.append({"role": "assistant", "content": response})
             st.rerun()
         else:
