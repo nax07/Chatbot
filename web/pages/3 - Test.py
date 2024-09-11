@@ -12,23 +12,12 @@ from text_translation import *
 
 
 ## Inicialize session state
-if "idioma" not in st.session_state:
-        st.session_state.idioma = "Inglés"
-
-if "modelo" not in st.session_state:
-        st.session_state.modelo = "gpt2-medium"
-
-if "lan_en" not in st.session_state:
-        st.session_state.lan_en = False
-    
-if "en_lan" not in st.session_state:
-        st.session_state.en_lan = False
-
-if "process" not in st.session_state:
-        st.session_state.process = False
-    
-if "messages" not in st.session_state:
-        st.session_state.messages = []
+st.session_state.setdefault("idioma", "Inglés")
+st.session_state.setdefault("modelo", "gpt2-medium")
+st.session_state.setdefault("lan_en", False)
+st.session_state.setdefault("en_lan", False)
+st.session_state.setdefault("process", False)
+st.session_state.setdefault("messages", [])
 
 
 ## Variables
