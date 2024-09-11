@@ -107,16 +107,15 @@ for message in st.session_state.messages:
 
 if prompt:
     if st.session_state.process:
-        if idioma:   
+        if idioma:
+            st.session_state.messages.append({"role": "user", "content": prompt})
             if idioma != "Inglés":
                 translated_prompt = translator(prompt, st.session_state.lan_en)
                 solution = data_processing(translated_prompt, st.session_state.process, RAG, Adv_prompts)
                 response = translator(solution, st.session_state.en_lan)
             else:
                 response = data_processing(prompt, st.session_state.process, RAG, Adv_prompts)
-            
-            
-            st.session_state.messages.append({"role": "user", "content": prompt})
+    
             st.session_state.messages.append({"role": "assistant", "content": response})
             st.rerun()
         else:
