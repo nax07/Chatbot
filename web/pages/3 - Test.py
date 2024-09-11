@@ -1,15 +1,15 @@
-## Import libraries
+# Import libraries
 import streamlit as st
 import os
 import sys
 
-## Add path for the imports
+# Add path for the imports
 sys.path.append('/mount/src/chatbot/web/pages/libraries')
 
 from text_processing import *
 from text_translation import *
 
-## Inicialize session state
+# Inicialize session state
 st.session_state.setdefault("idioma", "Inglés")
 st.session_state.setdefault("modelo", "gpt2-medium")
 st.session_state.setdefault("lan_en", False)
@@ -17,7 +17,7 @@ st.session_state.setdefault("en_lan", False)
 st.session_state.setdefault("process", False)
 st.session_state.setdefault("messages", [])
 
-## Variables
+# Variables
 idioma_a_abreviacion = {
     "Inglés": "en",
     "Español": "es",
@@ -91,11 +91,10 @@ if set_button:
         lan2 = "en"
         st.session_state.lan_en = load_translator(lan1, lan2)
         st.session_state.en_lan = load_translator(lan2, lan1)
-        
+
+
 # Create space for the chatbot
 prompt = st.chat_input(f'Envía un mensaje')
-
-
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
