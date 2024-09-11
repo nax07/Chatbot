@@ -11,6 +11,7 @@ from text_processing import *
 from text_translation import *
 
 
+
 ## Inicialize session state
 st.session_state.setdefault("idioma", "Inglés")
 st.session_state.setdefault("modelo", "gpt2-medium")
@@ -107,7 +108,6 @@ for message in st.session_state.messages:
 
 if prompt:
     if st.session_state.process:
-        if idioma:
             st.session_state.messages.append({"role": "user", "content": prompt})
             if idioma != "Inglés":
                 translated_prompt = translator(prompt, st.session_state.lan_en)
@@ -118,7 +118,5 @@ if prompt:
     
             st.session_state.messages.append({"role": "assistant", "content": response})
             st.rerun()
-        else:
-            st.warning("Idioma no especificado. Seleccione un idioma y confirme las configuraciones.")
     else:
         st.warning("El modelo no está cargado. Seleccione un modelo y confirme las configuraciones.")
