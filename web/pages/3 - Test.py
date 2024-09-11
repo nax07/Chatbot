@@ -3,14 +3,11 @@ import streamlit as st
 import os
 import sys
 
-
 ## Add path for the imports
 sys.path.append('/mount/src/chatbot/web/pages/libraries')
 
 from text_processing import *
 from text_translation import *
-
-
 
 ## Inicialize session state
 st.session_state.setdefault("idioma", "Inglés")
@@ -19,7 +16,6 @@ st.session_state.setdefault("lan_en", False)
 st.session_state.setdefault("en_lan", False)
 st.session_state.setdefault("process", False)
 st.session_state.setdefault("messages", [])
-
 
 ## Variables
 idioma_a_abreviacion = {
@@ -40,8 +36,6 @@ modelos = {
     "dolly-v2-7b": "databricks/dolly-v2-7b"
 }
 
-
-
 ## Main App
 st.title("Chatbot_Test")
 
@@ -57,6 +51,7 @@ idioma = st.sidebar.selectbox(
 )
 
 st.sidebar.subheader('Configuraciones del Chat')
+
 # Opción para activar/desactivar RAG
 RAG = st.sidebar.checkbox("Activar RAG", key="enabled_RAG")
 
