@@ -25,3 +25,6 @@ def RAG_retriever(list_of_strings, chunk_size=200, chunk_overlap=30, n_docs_retr
     # Create the vectorstore & retriever
     vectorstore = FAISS.from_documents(texts, embeddings)
     return vectorstore.as_retriever(search_kwargs={"k": n_docs_retrieved})
+
+def format_docs(docs):
+    return "\n\n".join(doc.page_content for doc in docs)
