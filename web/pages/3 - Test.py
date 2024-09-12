@@ -43,7 +43,6 @@ st.title("Chatbot_Test")
 
 # Sidebar
 st.sidebar.title('Opciones')
-
 st.sidebar.subheader('Idioma')
 idioma = st.sidebar.selectbox(
     "Seleccionar idioma",
@@ -52,10 +51,17 @@ idioma = st.sidebar.selectbox(
      "Chino (Mandarín)", "Árabe", "Hindi"),
 )
 
+# Selección del modelo de lenguaje en la barra lateral
+st.sidebar.subheader('Modelo')
+mod_selec = st.sidebar.selectbox(
+    "Select LLM",
+    ("gpt2-medium", "banana phone", "dolly-v2-7b"),
+)
+
 st.sidebar.subheader('Configuraciones del Chat')
 
 # Opción para activar/desactivar prompts avanzados
-Adv_prompts = st.sidebar.checkbox("Activar prompts avanzadas", key="enabled_prompts")
+# Adv_prompts = st.sidebar.checkbox("Activar prompts avanzadas", key="enabled_prompts")
 
 # Opción para activar/desactivar RAG
 RAG = st.sidebar.checkbox("Activar RAG")
@@ -70,11 +76,7 @@ if RAG:
     )
     RAG_files = st.sidebar.file_uploader("Sube los archivos de texto para hacer RAG aquí: ", accept_multiple_files=True, type=["txt"])
 
-# Selección del modelo de lenguaje en la barra lateral
-mod_selec = st.sidebar.selectbox(
-    "Select LLM",
-    ("gpt2-medium", "banana phone", "dolly-v2-7b"),
-)
+
 
 # Botón para confirmar configuraciones
 set_button = st.sidebar.button("Confirmar Configuraciones")
