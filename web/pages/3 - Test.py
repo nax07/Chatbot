@@ -55,7 +55,7 @@ st.sidebar.subheader('Configuraciones del Chat')
 # Opción para activar/desactivar RAG
 RAG = st.sidebar.checkbox("Activar RAG")
 if RAG:
-    RAG_files = st.sidebar.file_uploader("Sube los archivos de texto para hacer RAG aquí: ", accept_multiple_files=True)
+    RAG_files = st.sidebar.file_uploader("Sube los archivos de texto para hacer RAG aquí: ", accept_multiple_files=True, type=["txt"])
 
 # Opción para activar/desactivar prompts avanzados
 Adv_prompts = st.sidebar.checkbox("Activar prompts avanzadas", key="enabled_prompts")
@@ -87,9 +87,11 @@ if set_button:
         st.session_state.lan_en = load_translator(lan1, "en")
         st.session_state.en_lan = load_translator("en", lan1)
     if RAG:
-        st.sidebar.write(f"{RAG_files}")
-        
-
+        all_text = []
+        for file in RAG_files:
+            string_data = file.read().decode("utf-8") 
+            all_texts.append(string_data)
+        st.sidebar.write(f"{all_text}")
 
 # Create space for the chatbot
 prompt = st.chat_input(f'Envía un mensaje')
