@@ -10,12 +10,19 @@ from text_processing import *
 from text_translation import *
 
 # Inicialize session state
-st.session_state.setdefault("idioma", "Inglés")
-st.session_state.setdefault("modelo", "gpt2-medium")
-st.session_state.setdefault("lan_en", False)
-st.session_state.setdefault("en_lan", False)
-st.session_state.setdefault("process", False)
-st.session_state.setdefault("messages", [])
+st.session_statd.setdefault({
+    "idioma": "Inglés",
+    "modelo": "gpt2-medium,
+    "process": False,
+    "messages", []
+})
+
+#st.session_state.setdefault("idioma", "Inglés")
+#st.session_state.setdefault("modelo", "gpt2-medium")
+#st.session_state.setdefault("lan_en", False)
+#st.session_state.setdefault("en_lan", False)
+#st.session_state.setdefault("process", False)
+#st.session_state.setdefault("messages", [])
 
 # Variables
 idioma_a_abreviacion = {
@@ -54,6 +61,8 @@ st.sidebar.subheader('Configuraciones del Chat')
 
 # Opción para activar/desactivar RAG
 RAG = st.sidebar.checkbox("Activar RAG", key="enabled_RAG")
+if RAG:
+    
 
 # Opción para activar/desactivar prompts avanzados
 Adv_prompts = st.sidebar.checkbox("Activar prompts avanzadas", key="enabled_prompts")
