@@ -61,7 +61,7 @@ mod_selec = st.sidebar.selectbox(
 st.sidebar.subheader('Configuraciones del Chat')
 
 # Opción para activar/desactivar prompts avanzados
-# Adv_prompts = st.sidebar.checkbox("Activar prompts avanzadas", key="enabled_prompts")
+Adv_prompts = st.sidebar.checkbox("Activar prompts avanzadas", key="enabled_prompts")
 
 # Opción para activar/desactivar RAG
 RAG = st.sidebar.checkbox("Activar RAG")
