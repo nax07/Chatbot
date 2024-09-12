@@ -3,11 +3,8 @@ torch
 sentencepiece
 sacremoses
 accelerate
-langchain_community
-tiktoken
-langchain_text_splitters
-langchainhub
-chromadb
 langchain
-faiss-gpu
+tiktoken
+chromadb
+faiss-gpu 
 sentence-transformers
