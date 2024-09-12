@@ -52,13 +52,13 @@ idioma = st.sidebar.selectbox(
 
 st.sidebar.subheader('Configuraciones del Chat')
 
+# Opción para activar/desactivar prompts avanzados
+Adv_prompts = st.sidebar.checkbox("Activar prompts avanzadas", key="enabled_prompts")
+
 # Opción para activar/desactivar RAG
 RAG = st.sidebar.checkbox("Activar RAG")
 if RAG:
     RAG_files = st.sidebar.file_uploader("Sube los archivos de texto para hacer RAG aquí: ", accept_multiple_files=True, type=["txt"])
-
-# Opción para activar/desactivar prompts avanzados
-Adv_prompts = st.sidebar.checkbox("Activar prompts avanzadas", key="enabled_prompts")
 
 # Selección del modelo de lenguaje en la barra lateral
 mod_selec = st.sidebar.selectbox(
