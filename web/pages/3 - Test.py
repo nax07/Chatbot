@@ -55,7 +55,7 @@ st.sidebar.subheader('Configuraciones del Chat')
 # Opción para activar/desactivar RAG
 RAG = st.sidebar.checkbox("Activar RAG", key="enabled_RAG")
 if RAG:
-    files = st.file_uploader("Sube los archivos de texto para hacer RAG aquí: ", accept_multiple_files=True)
+    files = st.sidebar.file_uploader("Sube los archivos de texto para hacer RAG aquí: ", accept_multiple_files=True)
 
 # Opción para activar/desactivar prompts avanzados
 Adv_prompts = st.sidebar.checkbox("Activar prompts avanzadas", key="enabled_prompts")
