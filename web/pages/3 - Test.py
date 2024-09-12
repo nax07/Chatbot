@@ -59,6 +59,14 @@ Adv_prompts = st.sidebar.checkbox("Activar prompts avanzadas", key="enabled_prom
 # Opción para activar/desactivar RAG
 RAG = st.sidebar.checkbox("Activar RAG")
 if RAG:
+    chunk_size = st.slider("Seleccione el tamaño del chunk:", min_value=10, max_value=1000, value=200)
+    chunk_overlap = st.slider("Seleccione el solapamiento entre chunks:", min_value=0, max_value=chunk_size, value=30)
+    n_docs_retrieved =  st.number_input(
+        "Ingrese el número de chunks recuperados:", 
+        min_value=1, 
+        max_value=20, 
+        value=5  
+    )
     RAG_files = st.sidebar.file_uploader("Sube los archivos de texto para hacer RAG aquí: ", accept_multiple_files=True, type=["txt"])
 
 # Selección del modelo de lenguaje en la barra lateral
@@ -87,12 +95,13 @@ if set_button:
         lan1 = idioma_a_abreviacion.get(idioma)
         st.session_state.lan_en = load_translator(lan1, "en")
         st.session_state.en_lan = load_translator("en", lan1)
-    if RAG:
+    if RAG and RAG_files:
         all_text = []
         for file in RAG_files:
             string_data = file.read().decode("utf-8") 
             all_text.append(string_data)
-        
+        RAG_retriver = RAG_retriever(all_text, chunk_size, chunk_overlap, n_docs_retrieved)
+        st.sidebar.write(f"{RAG_retriver}")
 
 # Create space for the chatbot
 prompt = st.chat_input(f'Envía un mensaje')
