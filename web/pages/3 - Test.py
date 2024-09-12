@@ -2,6 +2,7 @@
 import streamlit as st
 import os
 import sys
+from langchain import hub
 
 # Add path for the imports
 sys.path.append('/mount/src/chatbot/web/pages/libraries')
@@ -34,7 +35,7 @@ idioma_a_abreviacion = {
 modelos = {
     "gpt2": "openai-community/gpt2",
     "Qwen-VL": "Qwen/Qwen-VL-Chat",
-    "dolly-v2-7b": "databricks/dolly-v2-7b"
+    "dolly-v2-7b": "databricks/dolly-v2-12b"
 }
 
 ## Main App
@@ -101,7 +102,7 @@ if set_button:
             string_data = file.read().decode("utf-8") 
             all_text.append(string_data)
         RAG_retriver = RAG_retriever(all_text, chunk_size, chunk_overlap, n_docs_retrieved)
-        st.sidebar.write(f"{RAG_retriver}")
+        prompt = hub.pull("rlm/rag-prompt")
 
 # Create space for the chatbot
 prompt = st.chat_input(f'Envía un mensaje')
