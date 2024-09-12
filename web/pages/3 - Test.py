@@ -90,7 +90,7 @@ if set_button:
         all_text = []
         for file in RAG_files:
             string_data = file.read().decode("utf-8") 
-            all_texts.append(string_data)
+            all_text.append(string_data)
         st.sidebar.write(f"{all_text}")
 
 # Create space for the chatbot
