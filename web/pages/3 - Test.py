@@ -67,14 +67,8 @@ mod_selec = st.sidebar.selectbox(
 )
 
 # Botón para confirmar configuraciones
-
-cols = st.columns(2)
-
-with cols[0]:
-    set_button = st.sidebar.button("Confirmar Configuraciones")
-
-with cols[1]:
-    clc_historial = st.sidebar.button("Limpiar historial")
+set_button = st.sidebar.button("Confirmar Configuraciones")
+clc_historial = st.sidebar.button("Limpiar historial")
 
 if clc_historial:
     # Reset the chat history
