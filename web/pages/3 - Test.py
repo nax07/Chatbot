@@ -35,7 +35,7 @@ idioma_a_abreviacion = {
 modelos = {
     "gpt2": "openai-community/gpt2",
     "Qwen-VL": "Qwen/Qwen-VL-Chat",
-    "dolly-v2-7b": "databricks/dolly-v2-12b"
+    "dolly-v2-7b": "databricks/dolly-v2-7b"
 }
 
 ## Main App
@@ -55,7 +55,7 @@ idioma = st.sidebar.selectbox(
 st.sidebar.subheader('Modelo')
 mod_selec = st.sidebar.selectbox(
     "Select LLM",
-    ("gpt2-medium", "banana phone", "dolly-v2-7b"),
+    ("gpt2-medium", "test model", "dolly-v2-7b"),
 )
 
 st.sidebar.subheader('Configuraciones del Chat')
