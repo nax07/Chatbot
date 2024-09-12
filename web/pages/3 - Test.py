@@ -8,6 +8,7 @@ sys.path.append('/mount/src/chatbot/web/pages/libraries')
 
 from text_processing import *
 from text_translation import *
+from RAG import *
 
 # Inicialize session state
 st.session_state.setdefault("idioma", "Inglés")
@@ -91,7 +92,7 @@ if set_button:
         for file in RAG_files:
             string_data = file.read().decode("utf-8") 
             all_text.append(string_data)
-        st.sidebar.write(f"{all_text}")
+        
 
 # Create space for the chatbot
 prompt = st.chat_input(f'Envía un mensaje')
