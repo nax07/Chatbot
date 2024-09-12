@@ -61,7 +61,7 @@ st.sidebar.subheader('Configuraciones del Chat')
 
 # Opción para activar/desactivar RAG
 RAG = st.sidebar.checkbox("Activar RAG", key="enabled_RAG")
-if RAG:
+#if RAG:
     
 
 # Opción para activar/desactivar prompts avanzados
