@@ -6,5 +6,5 @@ accelerate
 langchain
 tiktoken
 chromadb
-faiss-gpu 
+faiss-cpu 
 sentence-transformers
