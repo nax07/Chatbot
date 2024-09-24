@@ -86,6 +86,11 @@ if set_button:
         lan1 = idioma_a_abreviacion.get(idioma)
         st.session_state.lan_en = load_translator(lan1, "en")
         st.session_state.en_lan = load_translator("en", lan1)
+
+    if Adv_prompts:
+
+    if RAG:
+        
         
 
 # Create space for the chatbot
