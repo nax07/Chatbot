@@ -90,7 +90,7 @@ if set_button:
         st.session_state.lan_en = load_translator(lan1, "en")
         st.session_state.en_lan = load_translator("en", lan1)
     if RAG:
-       st.session_state.embeddings = HuggingFaceEmbeddings(
+        st.session_state.embeddings = HuggingFaceEmbeddings(
             model_name="sentence-transformers/all-MiniLM-l6-v2",
             model_kwargs={'device':'cpu'},
             encode_kwargs={'normalize_embeddings': False}
