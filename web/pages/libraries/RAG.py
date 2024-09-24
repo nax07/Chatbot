@@ -25,7 +25,7 @@ def llm_loading(model_name):
 
     return hf
 
-def data_processing(question, Adv_prompts, RAG, llm, vectorstore_path, embeddings):
+def data_processing(question, Adv_prompts, RAG, llm, embeddings):
     if Adv_prompts:
         template = """
         You are a question-answering assistant. Answer the question. If you don’t know the answer, simply say you don’t know. Use concise sentences, no more than 3.
@@ -58,7 +58,5 @@ def data_processing(question, Adv_prompts, RAG, llm, vectorstore_path, embedding
             | StrOutputParser()
         )
         return rag_chain.invoke(question)
-
-    
     else:
         return llm.invoke(question)
