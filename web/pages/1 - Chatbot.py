@@ -110,7 +110,7 @@ if prompt:
                 solution = data_processing(translated_prompt, Adv_prompts, RAG, st.session_state.process, embeddings, vectorstore)
                 response = translator(solution, st.session_state.en_lan)
             else:
-                response = data_processing(translated_prompt, Adv_prompts, RAG, st.session_state.process, embeddings, vectorstore)
+                response = data_processing(prompt, Adv_prompts, RAG, st.session_state.process, embeddings, vectorstore)
     
             st.session_state.messages.append({"role": "assistant", "content": response})
             st.rerun()
