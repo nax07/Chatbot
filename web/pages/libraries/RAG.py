@@ -11,30 +11,6 @@ from transformers import AutoModelForCausalLM
 from langchain_huggingface.llms import HuggingFacePipeline
 from langchain_core.prompts import ChatPromptTemplate
 
-def RAG_retriever(list_of_strings, chunk_size=200, chunk_overlap=30, n_docs_retrieved=5):
-    # Loads The documents
-    documents = [Document(page_content=text) for text in list_of_strings]
-
-    # Splits them into smaller chunks
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=chunk_size,
-        chunk_overlap=chunk_overlap,
-        length_function=len,
-        is_separator_regex=False,
-    )
-    texts = text_splitter.split_documents(documents)
-
-    # Create the embeddings
-    embeddings = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-l6-v2",
-        model_kwargs={'device':'cpu'},
-        encode_kwargs={'normalize_embeddings': False}
-    )
-
-    # Create the vectorstore & retriever
-    vectorstore = FAISS.from_documents(texts, embeddings)
-    return vectorstore.as_retriever(search_kwargs={"k": n_docs_retrieved})
-
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
@@ -50,7 +26,6 @@ def llm_loading(model_name):
     return hf
 
 def data_processing(question, Adv_prompts, RAG, llm, vectorstore_path, embeddings):
-
     if Adv_prompts:
         template = """
         You are a question-answering assistant. Answer the question. If you don’t know the answer, simply say you don’t know. Use concise sentences, no more than 3.
