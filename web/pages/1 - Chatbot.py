@@ -37,7 +37,7 @@ modelos = {
     "modelo3": "openai-community/gpt2-medium"
 }
 
-vectorstore_path = "vectorstore"
+vectorstore_path = "/mount/src/chatbot/web/pages/vectorstore"
 
 ## Main App
 st.title("Chatbot_Test")
