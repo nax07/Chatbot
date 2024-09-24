@@ -33,9 +33,9 @@ idioma_a_abreviacion = {
 }
 
 modelos = {
-    "gpt2": "openai-community/gpt2",
-    "Qwen-VL": "Qwen/Qwen-VL-Chat",
-    "dolly-v2-7b": "databricks/dolly-v2-7b"
+    "gpt2-medium": "openai-community/gpt2-medium",
+    "modelo2": "openai-community/gpt2-medium",
+    "modelo3": "openai-community/gpt2-medium"
 }
 
 ## Main App
@@ -45,7 +45,7 @@ st.title("Chatbot_Test")
 st.sidebar.title('Opciones')
 st.sidebar.subheader('Idioma')
 idioma = st.sidebar.selectbox(
-    "Seleccionar idioma",
+    "Selecciona el idioma:",
     ("Español", "Inglés", "Francés",
      "Aleman", "Italiano","Ruso",
      "Chino (Mandarín)", "Árabe", "Hindi"),
@@ -54,29 +54,17 @@ idioma = st.sidebar.selectbox(
 # Selección del modelo de lenguaje en la barra lateral
 st.sidebar.subheader('Modelo')
 mod_selec = st.sidebar.selectbox(
-    "Select LLM",
-    ("gpt2-medium", "test model", "dolly-v2-7b"),
+    "Selecciona el modelo de lenguaje natural:",
+    ("gpt2-medium", "modelo2", "modelo3"),
 )
 
-st.sidebar.subheader('Configuraciones del Chat')
+st.sidebar.subheader('Configuraciones del Chatbot')
 
-# Opción para activar/desactivar prompts avanzados
-Adv_prompts = st.sidebar.checkbox("Activar prompts avanzadas", key="enabled_prompts")
+# Prompts avanzados
+Adv_prompts = st.sidebar.checkbox("Activar Prompts Avanzados")
 
 # Opción para activar/desactivar RAG
 RAG = st.sidebar.checkbox("Activar RAG")
-if RAG:
-    chunk_size = st.sidebar.slider("Seleccione el tamaño del chunk:", min_value=10, max_value=1000, value=200)
-    chunk_overlap = st.sidebar.slider("Seleccione el solapamiento entre chunks:", min_value=0, max_value=chunk_size, value=30)
-    n_docs_retrieved =  st.sidebar.number_input(
-        "Ingrese el número de chunks recuperados:", 
-        min_value=1, 
-        max_value=20, 
-        value=5  
-    )
-    RAG_files = st.sidebar.file_uploader("Sube los archivos de texto para hacer RAG aquí: ", accept_multiple_files=True, type=["txt"])
-
-
 
 # Botón para confirmar configuraciones
 set_button = st.sidebar.button("Confirmar Configuraciones")
@@ -98,13 +86,7 @@ if set_button:
         lan1 = idioma_a_abreviacion.get(idioma)
         st.session_state.lan_en = load_translator(lan1, "en")
         st.session_state.en_lan = load_translator("en", lan1)
-    if RAG and RAG_files:
-        all_text = []
-        for file in RAG_files:
-            string_data = file.read().decode("utf-8") 
-            all_text.append(string_data)
-        RAG_retriver = RAG_retriever(all_text, chunk_size, chunk_overlap, n_docs_retrieved)
-        prompt = hub.pull("rlm/rag-prompt")
+        
 
 # Create space for the chatbot
 prompt = st.chat_input(f'Envía un mensaje')
