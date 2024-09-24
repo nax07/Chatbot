@@ -11,6 +11,8 @@ from transformers import AutoModelForCausalLM
 from langchain_huggingface.llms import HuggingFacePipeline
 from langchain_core.prompts import ChatPromptTemplate
 
+vectorstore_path = "/mount/src/chatbot/web/pages/vectorstore"
+
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
