@@ -39,6 +39,13 @@ modelos = {
 
 vectorstore_path = "/mount/src/chatbot/web/pages/vectorstore"
 
+embeddings = HuggingFaceEmbeddings(
+        model_name="sentence-transformers/all-MiniLM-l6-v2",
+        model_kwargs={'device':'cpu'},
+        encode_kwargs={'normalize_embeddings': False}
+    )
+vectorstore = FAISS.load_local(vectorstore_path, embeddings, allow_dangerous_deserialization=True)
+
 ## Main App
 st.title("Chatbot_Test")
 
@@ -78,13 +85,6 @@ if clc_historial:
 if set_button:
     # Reset the chat history
     st.session_state.messages = []
-
-    embeddings = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-l6-v2",
-        model_kwargs={'device':'cpu'},
-        encode_kwargs={'normalize_embeddings': False}
-    )
-    vectorstore = FAISS.load_local(vectorstore_path, embeddings, allow_dangerous_deserialization=True)
     
     # Set selected configurations
     modelo = modelos.get(mod_selec)
