@@ -95,7 +95,7 @@ if set_button:
             model_kwargs={'device':'cpu'},
             encode_kwargs={'normalize_embeddings': False}
         )
-        st.session_state.vectorstore = FAISS.load_local(vectorstore_path, embeddings, allow_dangerous_deserialization=True)
+        st.session_state.vectorstore = FAISS.load_local(vectorstore_path, st.session_state.embeddings, allow_dangerous_deserialization=True)
     else:
         st.session_state.embeddings = False
         st.session_state.vectorstore = False
