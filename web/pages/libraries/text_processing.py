@@ -58,6 +58,7 @@ def data_processing(question, Adv_prompts, RAG, llm, embeddings, vectorstore):
             | llm
             | StrOutputParser()
         )
-        return rag_chain.invoke(question)
+        output = rag_chain.invoke(question)
+        return output.split("Answer:")[1].strip()
     else:
         return llm.invoke(question)
