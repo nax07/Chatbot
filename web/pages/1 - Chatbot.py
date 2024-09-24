@@ -16,6 +16,8 @@ st.session_state.setdefault("modelo", "gpt2-medium")
 st.session_state.setdefault("lan_en", False)
 st.session_state.setdefault("en_lan", False)
 st.session_state.setdefault("process", False)
+st.session_state.setdefault("embeddings", False)
+st.session_state.setdefault("vectorstore", False)
 st.session_state.setdefault("messages", [])
 
 # Variables
@@ -88,15 +90,15 @@ if set_button:
         st.session_state.lan_en = load_translator(lan1, "en")
         st.session_state.en_lan = load_translator("en", lan1)
     if RAG:
-        embeddings = HuggingFaceEmbeddings(
+       st.session_state.embeddings = HuggingFaceEmbeddings(
             model_name="sentence-transformers/all-MiniLM-l6-v2",
             model_kwargs={'device':'cpu'},
             encode_kwargs={'normalize_embeddings': False}
         )
-        vectorstore = FAISS.load_local(vectorstore_path, embeddings, allow_dangerous_deserialization=True)
+        st.session_state.vectorstore = FAISS.load_local(vectorstore_path, embeddings, allow_dangerous_deserialization=True)
     else:
-        embeddings = False
-        vectorstore = False
+        st.session_state.embeddings = False
+        st.session_state.vectorstore = False
 
 # Create space for the chatbot
 prompt = st.chat_input(f'Envía un mensaje')
@@ -110,10 +112,10 @@ if prompt:
             st.session_state.messages.append({"role": "user", "content": prompt})
             if idioma != "Inglés":
                 translated_prompt = translator(prompt, st.session_state.lan_en)
-                solution = data_processing(translated_prompt, Adv_prompts, RAG, st.session_state.process, embeddings, vectorstore)
+                solution = data_processing(translated_prompt, Adv_prompts, RAG, st.session_state.process, st.session_state.embeddings, st.session_state.vectorstore)
                 response = translator(solution, st.session_state.en_lan)
             else:
-                response = data_processing(prompt, Adv_prompts, RAG, st.session_state.process, embeddings, vectorstore)
+                response = data_processing(prompt, Adv_prompts, RAG, st.session_state.process, st.session_state.embeddings, st.session_state.vectorstore)
     
             st.session_state.messages.append({"role": "assistant", "content": response})
             st.rerun()
