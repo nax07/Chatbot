@@ -85,6 +85,7 @@ if set_button:
         encode_kwargs={'normalize_embeddings': False}
     )
     vectorstore = FAISS.load_local(vectorstore_path, embeddings, allow_dangerous_deserialization=True)
+    
     # Set selected configurations
     modelo = modelos.get(mod_selec)
     if modelo != st.session_state.process:
@@ -106,11 +107,10 @@ if prompt:
             st.session_state.messages.append({"role": "user", "content": prompt})
             if idioma != "Inglés":
                 translated_prompt = translator(prompt, st.session_state.lan_en)
-                solution = data_processing(translated_prompt, st.session_state.process, RAG, Adv_prompts)
                 solution = data_processing(translated_prompt, Adv_prompts, RAG, st.session_state.process, embeddings, vectorstore)
                 response = translator(solution, st.session_state.en_lan)
             else:
-                response = data_processing(prompt, st.session_state.process, RAG, Adv_prompts)
+                response = data_processing(translated_prompt, Adv_prompts, RAG, st.session_state.process, embeddings, vectorstore)
     
             st.session_state.messages.append({"role": "assistant", "content": response})
             st.rerun()
