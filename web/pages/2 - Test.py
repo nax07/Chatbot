@@ -9,7 +9,6 @@ sys.path.append('/mount/src/chatbot/web/pages/libraries')
 
 from text_processing import *
 from text_translation import *
-from RAG import *
 
 # Inicialize session state
 st.session_state.setdefault("idioma", "Inglés")
@@ -37,6 +36,9 @@ modelos = {
     "modelo2": "openai-community/gpt2-medium",
     "modelo3": "openai-community/gpt2-medium"
 }
+
+vectorstore_path = "vectorstore"
+
 
 ## Main App
 st.title("Chatbot_Test")
@@ -88,7 +90,7 @@ if set_button:
         st.session_state.en_lan = load_translator("en", lan1)
 
     if Adv_prompts:
-
+        
     if RAG:
         
         
