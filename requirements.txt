@@ -9,3 +9,4 @@ chromadb
 faiss-cpu 
 sentence-transformers
 langchain-community
+langchain_huggingface
