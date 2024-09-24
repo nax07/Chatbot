@@ -25,7 +25,7 @@ def llm_loading(model_name):
 
     return hf
 
-def data_processing(question, Adv_prompts, RAG, llm, embeddings):
+def data_processing(question, Adv_prompts, RAG, llm, embeddings, vectorstore):
     if Adv_prompts:
         template = """
         You are a question-answering assistant. Answer the question. If you don’t know the answer, simply say you don’t know. Use concise sentences, no more than 3.
