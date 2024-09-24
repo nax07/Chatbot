@@ -39,13 +39,6 @@ modelos = {
 
 vectorstore_path = "/mount/src/chatbot/web/pages/vectorstore"
 
-embeddings = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-l6-v2",
-        model_kwargs={'device':'cpu'},
-        encode_kwargs={'normalize_embeddings': False}
-    )
-vectorstore = FAISS.load_local(vectorstore_path, embeddings, allow_dangerous_deserialization=True)
-
 ## Main App
 st.title("Chatbot_Test")
 
@@ -94,6 +87,16 @@ if set_button:
         lan1 = idioma_a_abreviacion.get(idioma)
         st.session_state.lan_en = load_translator(lan1, "en")
         st.session_state.en_lan = load_translator("en", lan1)
+    if RAG:
+        embeddings = HuggingFaceEmbeddings(
+            model_name="sentence-transformers/all-MiniLM-l6-v2",
+            model_kwargs={'device':'cpu'},
+            encode_kwargs={'normalize_embeddings': False}
+        )
+        vectorstore = FAISS.load_local(vectorstore_path, embeddings, allow_dangerous_deserialization=True)
+    else:
+        embeddings = False
+        vectorstore = False
 
 # Create space for the chatbot
 prompt = st.chat_input(f'Envía un mensaje')
