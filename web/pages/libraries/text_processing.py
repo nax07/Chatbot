@@ -52,7 +52,6 @@ def data_processing(question, Adv_prompts, RAG, llm, embeddings, vectorstore):
         vectorstore = FAISS.load_local(vectorstore_path, embeddings, allow_dangerous_deserialization=True)
         retriever = vectorstore.as_retriever(search_kwargs={"k": 10})
         prompt = hub.pull("rlm/rag-prompt")
-        llm = llm_loading(model_name)
         rag_chain = (
             RunnableParallel({"context": retriever | format_docs, "question": RunnablePassthrough()})
             | prompt
