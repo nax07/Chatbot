@@ -34,7 +34,7 @@ idioma_a_abreviacion = {
 }
 
 modelos = {
-    "gpt2-medium": "openai-community/gpt2-medium",
+    "gpt2-medium": "openai-community/gpt2-xl",
     "modelo2": "openai-community/gpt2-medium",
     "modelo3": "openai-community/gpt2-medium"
 }
