@@ -17,6 +17,7 @@ from langchain_core.prompts import ChatPromptTemplate
 
 # Variables
 vectorstore_path = "/mount/src/chatbot/web/pages/vectorstore"
+
 idioma_a_abreviacion = {
     "Inglés": "en",
     "Español": "es",
@@ -30,7 +31,7 @@ idioma_a_abreviacion = {
 }
 
 modelos = {
-    "gpt2-medium": "openai-community/gpt2-xl",
+    "gpt2-xl": "openai-community/gpt2-xl",
     "modelo2": "openai-community/gpt2-medium",
     "modelo3": "openai-community/gpt2-medium"
 }
@@ -44,22 +45,55 @@ st.session_state.setdefault("process", False)
 st.session_state.setdefault("embeddings", False)
 st.session_state.setdefault("vectorstore", False)
 st.session_state.setdefault("messages", [])
+st.session_state.setdefault("pipe", False)
 
 # Auxiliar functions
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
 def llm_loading(model_name):
-
     hf = HuggingFacePipeline.from_model_id(
         model_id=model_name,
         task="text-generation",
         model_kwargs={"temperature": 0.7, "trust_remote_code": True},
         pipeline_kwargs={"max_new_tokens": 100},
     )
-
     return hf
 
+def processing(question, llm):
+    return llm.invoke(question)
+
+def advanced_processing(question, llm):
+    template = """
+    You are a question-answering assistant. Answer the question. If you don’t know the answer, simply say you don’t know. Use concise sentences, no more than 3.
+
+    Question: {question}
+
+    Answer:
+    """
+    prompt = ChatPromptTemplate.from_template(template)
+    adv_chain = (
+        RunnableParallel({"question": RunnablePassthrough()})
+        | prompt
+        | llm
+        | StrOutputParser()
+    )
+    output = adv_chain.invoke(question)
+    return output.split("Answer:")[1].strip()
+
+def RAG(question, llm, embeddings, vectorstore):
+    vectorstore = FAISS.load_local(vectorstore_path, embeddings, allow_dangerous_deserialization=True)
+    retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
+    prompt = hub.pull("rlm/rag-prompt")
+    rag_chain = (
+        RunnableParallel({"context": retriever | format_docs, "question": RunnablePassthrough()})
+        | prompt
+        | llm
+        | StrOutputParser()
+    )
+    output = rag_chain.invoke(question)
+    return output.split("Answer:")[1].strip()
+    
 def data_processing(question, Adv_prompts, RAG, llm, embeddings, vectorstore):
     if Adv_prompts:
         template = """
@@ -77,7 +111,6 @@ def data_processing(question, Adv_prompts, RAG, llm, embeddings, vectorstore):
             | llm
             | StrOutputParser()
         )
-
         output = adv_chain.invoke(question)
         return output.split("Answer:")[1].strip()
 
@@ -106,7 +139,7 @@ st.sidebar.title('Opciones')
 st.sidebar.subheader('Idioma')
 idioma = st.sidebar.selectbox(
     "Selecciona el idioma:",
-    ("Español", "Inglés", "Francés",
+    ("Inglés", "Español", "Francés",
      "Aleman", "Italiano","Ruso",
      "Chino (Mandarín)", "Árabe", "Hindi"),
 )
@@ -115,7 +148,7 @@ idioma = st.sidebar.selectbox(
 st.sidebar.subheader('Modelo')
 mod_selec = st.sidebar.selectbox(
     "Selecciona el modelo de lenguaje natural:",
-    ("gpt2-medium", "modelo2", "modelo3"),
+    ("gpt2-xl", "modelo2", "modelo3"),
 )
 
 st.sidebar.subheader('Configuraciones del Chatbot')
