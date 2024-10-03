@@ -171,11 +171,9 @@ if clc_historial:
 ## Set Configs
 if set_button:
     st.session_state.messages = []
-    
-    modelo = modelo_a_link.get(model_name)
-    
     if model_name != st.session_state.modelo:
         st.session_state.modelo = model_name
+        modelo = modelo_a_link.get(model_name)
         st.session_state.process = llm_loading(modelo, st.session_state.key)
 
     
