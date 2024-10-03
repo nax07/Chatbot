@@ -206,13 +206,13 @@ if prompt:
     if st.session_state.process:
         st.session_state.messages.append({"role": "user", "content": prompt})
         if option == "Multi-Query RAG":
-            response = RAG(prompt, llm, embeddings, retriever)
+            response = RAG(prompt, llm=st.session_state.process, embeddings=st.session_state.embeddings, retriever=st.session_state.retriever)
         elif option == "Regular RAG":
-            response = RAG(prompt, llm, embeddings, retriever)
+            response = RAG(prompt, llm=st.session_state.process, embeddings=st.session_state.embeddings, retriever=st.session_state.retriever)
         elif option == "Advanced prompts processing":
-            response = advanced_processing(prompt, llm)
+            response = advanced_processing(prompt, llm=st.session_state.process)
         else:
-            response = processing(prompt, llm)   
+            response = processing(prompt, llm=st.session_state.process)   
              
             #solution = data_processing(translated_prompt, Adv_prompts, RAG, st.session_state.process, st.session_state.embeddings, st.session_state.vectorstore)
             #response = data_processing(prompt, Adv_prompts, RAG, st.session_state.process, st.session_state.embeddings, st.session_state.vectorstore)
