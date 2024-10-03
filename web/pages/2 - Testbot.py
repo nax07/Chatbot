@@ -162,7 +162,7 @@ if set_button:
         st.warning("Falta poner la huggingface key.")
 
     else:
-        if model_name != st.session_state.modelo and not st.session_state.process:
+        if model_name != st.session_state.modelo or not st.session_state.process:
             st.session_state.modelo = model_name
             modelo = modelo_a_link.get(model_name)
             st.session_state.process = llm_loading(modelo, st.session_state.key)
