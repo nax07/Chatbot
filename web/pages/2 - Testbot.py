@@ -153,7 +153,7 @@ st.sidebar.subheader('Configuraciones del Chatbot')
 
 # Other options
 
-option = st.radio(
+option = st.sidebar.radio(
     "Choose an option:",
     ("Regular processing", "Advanced prompts processing", "Regular RAG", "Multi-Query RAG")
 )
