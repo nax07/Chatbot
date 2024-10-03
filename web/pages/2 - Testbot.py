@@ -66,7 +66,7 @@ def llm_loading(model_id, key=False):
     if key:
          hf = HuggingFacePipeline.from_model_id(
             model_id=model_id,
-            token=key
+            token=key,
             task="text-generation",
             model_kwargs={"temperature": 0.7, "trust_remote_code": True},
             pipeline_kwargs={"max_new_tokens": 100},
