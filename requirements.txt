@@ -11,4 +11,3 @@ sentence-transformers
 langchain-community
 langchain_huggingface
 bitsandbytes
---extra-index-url https://download.pytorch.org/whl/cu121
