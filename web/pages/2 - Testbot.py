@@ -64,27 +64,13 @@ def format_docs(docs):
 
 def llm_loading(model_id, key=False):
     if key:
-        tokenizer = AutoTokenizer.from_pretrained(model_id, token=key)
-        tokenizer.pad_token = tokenizer.eos_token
-    
-        config = AutoConfig.from_pretrained(model_id, token=key)
-        config.rope_scaling = { "type": "linear", "factor": 8.0 }
-    
-        model = AutoModelForCausalLM.from_pretrained(
-            model_id,
-            token=key,
-            device_map="auto",
-            quantization_config=bnb_config,
+         hf = HuggingFacePipeline.from_model_id(
+            model_id=model_id,
+            token=key
+            task="text-generation",
+            model_kwargs={"temperature": 0.7, "trust_remote_code": True},
+            pipeline_kwargs={"max_new_tokens": 100},
         )
-    
-        text_generator = pipeline(
-        "text-generation",
-        model=model,
-        tokenizer=tokenizer,
-        max_new_tokens=128
-        ) 
-    
-        hf = HuggingFacePipeline(pipeline=text_generator)
     else:
     
         hf = HuggingFacePipeline.from_model_id(
