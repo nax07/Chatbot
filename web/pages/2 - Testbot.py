@@ -74,7 +74,7 @@ def llm_loading(model_id, key=False):
             model_id,
             token=key,
             device_map="auto",
-            #quantization_config=bnb_config,
+            quantization_config=bnb_config,
         )
     
         text_generator = pipeline(
