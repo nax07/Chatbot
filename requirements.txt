@@ -11,4 +11,3 @@ sentence-transformers
 langchain-community
 langchain_huggingface
 bitsandbytes
-cuda
