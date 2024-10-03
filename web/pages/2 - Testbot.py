@@ -171,25 +171,30 @@ if clc_historial:
 ## Set Configs
 if set_button:
     st.session_state.messages = []
-    if model_name != st.session_state.modelo:
-        st.session_state.modelo = model_name
-        modelo = modelo_a_link.get(model_name)
-        st.session_state.process = llm_loading(modelo, st.session_state.key)
+        
+    if model_name in ["Llama-3.1-8B-Instruct"] and not key:
+        st.warning("Falta poner la huggingface key.")
 
+    else:
+        if model_name != st.session_state.modelo:
+            st.session_state.modelo = model_name
+            modelo = modelo_a_link.get(model_name)
+            st.session_state.process = llm_loading(modelo, st.session_state.key)
     
-    #if idioma != "Inglés":
-    #    lan1 = idioma_a_abreviacion.get(idioma)
-    #    st.session_state.lan_en = load_translator(lan1, "en")
-    #    st.session_state.en_lan = load_translator("en", lan1)
-    
-    if option in ["Regular RAG", "Multi-Query RAG"]:
-        st.session_state.embeddings = HuggingFaceEmbeddings(
-            model_name="sentence-transformers/all-MiniLM-l6-v2",
-            model_kwargs={'device':'cpu'},
-            encode_kwargs={'normalize_embeddings': False}
-        )
-        vectorstore = FAISS.load_local(vectorstore_path, st.session_state.embeddings, allow_dangerous_deserialization=True)
-        st.session_state.retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
+        
+        #if idioma != "Inglés":
+        #    lan1 = idioma_a_abreviacion.get(idioma)
+        #    st.session_state.lan_en = load_translator(lan1, "en")
+        #    st.session_state.en_lan = load_translator("en", lan1)
+        
+        if option in ["Regular RAG", "Multi-Query RAG"]:
+            st.session_state.embeddings = HuggingFaceEmbeddings(
+                model_name="sentence-transformers/all-MiniLM-l6-v2",
+                model_kwargs={'device':'cpu'},
+                encode_kwargs={'normalize_embeddings': False}
+            )
+            vectorstore = FAISS.load_local(vectorstore_path, st.session_state.embeddings, allow_dangerous_deserialization=True)
+            st.session_state.retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
 
 
 ####################################### Chatbot #######################################
