@@ -64,15 +64,15 @@ def format_docs(docs):
 
 def llm_loading(model_id, key=False):
     if key:
-        tokenizer = AutoTokenizer.from_pretrained(model_id, token=my_key)
+        tokenizer = AutoTokenizer.from_pretrained(model_id, token=key)
         tokenizer.pad_token = tokenizer.eos_token
     
-        config = AutoConfig.from_pretrained(model_id, token=my_key)
+        config = AutoConfig.from_pretrained(model_id, token=key)
         config.rope_scaling = { "type": "linear", "factor": 8.0 }
     
         model = AutoModelForCausalLM.from_pretrained(
             model_id,
-            token=my_key,
+            token=key,
             device_map="auto",
             quantization_config=bnb_config,
         )
