@@ -172,7 +172,7 @@ if clc_historial:
 if set_button:
     st.session_state.messages = []
         
-    if model_name in ["Llama-3.1-8B-Instruct"] and not key:
+    if model_name in ["Llama-3.1-8B-Instruct"] and not st.session_state.key:
         st.warning("Falta poner la huggingface key.")
 
     else:
