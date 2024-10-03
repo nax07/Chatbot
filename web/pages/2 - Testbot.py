@@ -47,6 +47,7 @@ bnb_config = BitsAndBytesConfig(
     bnb_4bit_quant_type="nf4",
     bnb_4bit_compute_dtype=torch.bfloat16
 )
+device = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 # Inicialize session state
@@ -73,6 +74,7 @@ def llm_loading(model_id, key=False):
         model = AutoModelForCausalLM.from_pretrained(
             model_id,
             token=key,
+            device=device,
             device_map="auto",
         )
     
