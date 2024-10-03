@@ -29,7 +29,7 @@ idioma_a_abreviacion = {
     "Árabe": "ar",
     "Hindi": "hi"
 }
-modelos = {
+modelo_a_link = {
     "gpt2-xl": "openai-community/gpt2-xl",
     "modelo2": "openai-community/gpt2-medium",
     "Llama-3.1-8B-Instruct": "meta-llama/Llama-3.1-8B-Instruct"
@@ -50,17 +50,13 @@ bnb_config = BitsAndBytesConfig(
 
 
 # Inicialize session state
-st.session_state.setdefault("idioma", "Inglés")
-st.session_state.setdefault("modelo", "gpt2-xl")
-#st.session_state.setdefault("lan_en", False)
-#st.session_state.setdefault("en_lan", False)
-st.session_state.setdefault("process", False)
-st.session_state.setdefault("embeddings", False)
-st.session_state.setdefault("vectorstore", False)
-st.session_state.setdefault("messages", [])
-st.session_state.setdefault("pipe", False)
-st.session_state.setdefault("retriever", False)
-st.session_state.setdefault("key", False)
+st.session_state.setdefault("idioma", "Inglés")  # Idioma del input y output
+st.session_state.setdefault("modelo", "False")   # Nombre corto del modelo
+st.session_state.setdefault("process", False)    # llm (HuggingFacePipeline)
+st.session_state.setdefault("embeddings", False) # Embeddings
+st.session_state.setdefault("messages", [])      # Historial de mensajes
+st.session_state.setdefault("retriever", False)  # Retriever
+st.session_state.setdefault("key", False)        # Hugging face key with access
 
 ####################################### Auxiliar functions #######################################
 def format_docs(docs):
@@ -113,7 +109,7 @@ def advanced_processing(question, llm):
     output = adv_chain.invoke(question)
     return output.split("Answer:")[1].strip()
 
-def RAG(question, llm, embeddings, retriever):
+def RAG(question, llm, retriever):
     prompts = hub.pull("rlm/rag-prompt")
     rag_chain = (
         RunnableParallel({"context": retriever | format_docs, "question": RunnablePassthrough()})
@@ -145,19 +141,24 @@ idioma = st.sidebar.selectbox(
 
 # LLM
 st.sidebar.subheader('Modelo')
-mod_selec = st.sidebar.selectbox(
+model_name = st.sidebar.selectbox(
     "Selecciona el modelo de lenguaje natural:",
     ("gpt2-xl", "modelo2", "Llama-3.1-8B-Instruct"),
 )
-if mod_selec == "Llama-3.1-8B-Instruct":
+if model_name == "Llama-3.1-8B-Instruct":
     st.session_state.key = st.sidebar.text_input("Introduce Hugging Face Key", type="password")
     
 ## Configs
 st.sidebar.subheader('Configuraciones del Chatbot')
 
 # Other options
-Adv_prompts = st.sidebar.checkbox("Activar Prompts Avanzados")
-RAG = st.sidebar.checkbox("Activar RAG")
+
+option = st.radio(
+    "Choose an option:",
+    ("Regular processing", "Advanced prompts processing", "Regular RAG", "Multi-Query RAG")
+)
+#Adv_prompts = st.sidebar.checkbox("Activar Prompts Avanzados")
+#RAG = st.sidebar.checkbox("Activar RAG")
 
 # Buttons to confirm configurations
 set_button = st.sidebar.button("Confirmar Configuraciones")
@@ -171,22 +172,25 @@ if clc_historial:
 if set_button:
     st.session_state.messages = []
     
-    modelo = modelos.get(mod_selec)
-    if modelo != st.session_state.process:
-        st.session_state.process = llm_loading(modelo)
+    modelo = modelo_a_link.get(model_name)
+    
+    if model_name != st.session_state.modelo:
+        st.session_state.modelo = model_name
+        st.session_state.process = llm_loading(modelo, st.session_state.key)
+
     
     #if idioma != "Inglés":
     #    lan1 = idioma_a_abreviacion.get(idioma)
     #    st.session_state.lan_en = load_translator(lan1, "en")
     #    st.session_state.en_lan = load_translator("en", lan1)
     
-    if RAG:
+    if option in ["Regular RAG", "Multi-Query RAG"]:
         st.session_state.embeddings = HuggingFaceEmbeddings(
             model_name="sentence-transformers/all-MiniLM-l6-v2",
             model_kwargs={'device':'cpu'},
             encode_kwargs={'normalize_embeddings': False}
         )
-        st.session_state.vectorstore = FAISS.load_local(vectorstore_path, st.session_state.embeddings, allow_dangerous_deserialization=True)
+        vectorstore = FAISS.load_local(vectorstore_path, st.session_state.embeddings, allow_dangerous_deserialization=True)
         st.session_state.retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
 
 
@@ -201,12 +205,15 @@ for message in st.session_state.messages:
 if prompt:
     if st.session_state.process:
         st.session_state.messages.append({"role": "user", "content": prompt})
-        if RAG:
+        if option == "Multi-Query RAG":
             response = RAG(prompt, llm, embeddings, retriever)
-        elif Adv_prompts:
+        elif option == "Regular RAG":
+            response = RAG(prompt, llm, embeddings, retriever)
+        elif option == "Advanced prompts processing":
             response = advanced_processing(prompt, llm)
         else:
-            response = processing(prompt, llm)    
+            response = processing(prompt, llm)   
+             
             #solution = data_processing(translated_prompt, Adv_prompts, RAG, st.session_state.process, st.session_state.embeddings, st.session_state.vectorstore)
             #response = data_processing(prompt, Adv_prompts, RAG, st.session_state.process, st.session_state.embeddings, st.session_state.vectorstore)
 
