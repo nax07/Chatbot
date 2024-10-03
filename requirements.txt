@@ -10,4 +10,5 @@ faiss-cpu
 sentence-transformers
 langchain-community
 langchain_huggingface
-bitsandbytes[cuda]
+bitsandbytes
+--extra-index-url https://bitsandbytes.ai/nightly/
