@@ -51,7 +51,7 @@ bnb_config = BitsAndBytesConfig(
 
 # Inicialize session state
 st.session_state.setdefault("idioma", "Inglés")  # Idioma del input y output
-st.session_state.setdefault("modelo", "False")   # Nombre corto del modelo
+st.session_state.setdefault("modelo", False)   # Nombre corto del modelo
 st.session_state.setdefault("process", False)    # llm (HuggingFacePipeline)
 st.session_state.setdefault("embeddings", False) # Embeddings
 st.session_state.setdefault("messages", [])      # Historial de mensajes
