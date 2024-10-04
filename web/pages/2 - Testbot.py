@@ -57,6 +57,7 @@ st.session_state.setdefault("embeddings", False) # Embeddings
 st.session_state.setdefault("messages", [])      # Historial de mensajes
 st.session_state.setdefault("retriever", False)  # Retriever
 st.session_state.setdefault("key", False)        # Hugging face key with access
+st.session_state.setdefault("test", 0)
 
 ####################################### Auxiliar functions #######################################
 def format_docs(docs):
@@ -123,12 +124,15 @@ def RAG(question, llm, retriever):
 
 ####################################### Main App ######################################
 
+st.session_state.test += 1
 st.title("Chatbot_Test")
 
 ####################################### Sidebar #######################################
 
 ## Settings
 st.sidebar.title('Opciones')
+
+st.sidebar.write(f"Number of tests: {st.session_state.test}")
 
 # Languages
 st.sidebar.subheader('Idioma')
