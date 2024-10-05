@@ -2,8 +2,7 @@
 import streamlit as st
 import os
 import sys
-from langchain import hub
-from langchain import HuggingFacePipeline
+from langchain import hub, HuggingFacePipeline
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from langchain.schema import Document
@@ -11,28 +10,17 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import ChatPromptTemplate
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, AutoConfig, pipeline
+from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig, pipeline
 from huggingface_hub import login
 from langchain_huggingface.llms import HuggingFacePipeline
 import torch
 
-# Variables
+####################################### Variables #######################################
 vectorstore_path = "/mount/src/chatbot/web/pages/vectorstore"
-idioma_a_abreviacion = {
-    "Inglés": "en",
-    "Español": "es",
-    "Francés": "fr",
-    "Alemán": "de",
-    "Italiano": "it",
-    "Ruso": "ru",
-    "Chino (Mandarín)": "zh",
-    "Árabe": "ar",
-    "Hindi": "hi"
-}
 modelo_a_link = {
-    "gpt2-xl": "openai-community/gpt2-xl",
-    "modelo2": "openai-community/gpt2-medium",
-    "Llama-3.1-8B-Instruct": "meta-llama/Llama-3.1-8B-Instruct"
+    "Gpt2-xl": "openai-community/gpt2-xl",
+    "Cohere": "cohere",
+    "Llama3": "meta-llama/Llama-3.1-8B-Instruct"
 }
 template = """
 You are a question-answering assistant. Answer the question. If you don’t know the answer, simply say you don’t know. Use concise sentences, no more than 3.
@@ -41,23 +29,19 @@ Question: {question}
 
 Answer:
 """
-bnb_config = BitsAndBytesConfig(
-    load_in_4bit=True,
-    bnb_4bit_use_double_quant=True,
-    bnb_4bit_quant_type="nf4",
-    bnb_4bit_compute_dtype=torch.bfloat16
-)
-
 
 # Inicialize session state
-st.session_state.setdefault("idioma", "Inglés")  # Idioma del input y output
-st.session_state.setdefault("modelo", False)   # Nombre corto del modelo
-st.session_state.setdefault("process", False)    # llm (HuggingFacePipeline)
-st.session_state.setdefault("embeddings", False) # Embeddings
-st.session_state.setdefault("messages", [])      # Historial de mensajes
-st.session_state.setdefault("retriever", False)  # Retriever
-st.session_state.setdefault("key", False)        # Hugging face key with access
-st.session_state.setdefault("test", 0)
+st.session_state.setdefault("model_name", False)       # Model name
+st.session_state.setdefault("model_llm", False)        # Model LLM
+st.session_state.setdefault("model_key", False)        # Model API key with access
+
+st.session_state.setdefault("embeddings", False)       # Embeddings
+st.session_state.setdefault("retriever", False)        # Retriever
+
+st.session_state.setdefault("messages", [])            # Messages history
+
+st.session_state.setdefault("modelo", False)           # Nombre corto del modelo
+st.session_state.setdefault("process", False)          # llm (HuggingFacePipeline)
 
 ####################################### Auxiliar functions #######################################
 def format_docs(docs):
@@ -124,7 +108,6 @@ def RAG(question, llm, retriever):
 
 ####################################### Main App ######################################
 
-st.session_state.test += 1
 st.title("Chatbot_Test")
 
 ####################################### Sidebar #######################################
@@ -132,25 +115,16 @@ st.title("Chatbot_Test")
 ## Settings
 st.sidebar.title('Opciones')
 
-st.sidebar.write(f"Number of tests: {st.session_state.test}")
-
 # Languages
-st.sidebar.subheader('Idioma')
-idioma = st.sidebar.selectbox(
-    "Selecciona el idioma:",
-    ("Inglés", "Español", "Francés",
-     "Aleman", "Italiano","Ruso",
-     "Chino (Mandarín)", "Árabe", "Hindi"),
-)
 
 # LLM
 st.sidebar.subheader('Modelo')
 model_name = st.sidebar.selectbox(
     "Selecciona el modelo de lenguaje natural:",
-    ("gpt2-xl", "modelo2", "Llama-3.1-8B-Instruct"),
+    ("Gpt2-xl", "Cohere", "Llama3"),
 )
-if model_name == "Llama-3.1-8B-Instruct":
-    st.session_state.key = st.sidebar.text_input("Introduce Hugging Face Key", type="password")
+if model_name in ["Llama3", "Cohere"]:
+    st.session_state.key = st.sidebar.text_input("Introduce llm Key", type="password")
     
 ## Configs
 st.sidebar.subheader('Configuraciones del Chatbot')
