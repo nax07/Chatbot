@@ -103,7 +103,7 @@ def advanced_processing(question, llm):
         | StrOutputParser()
     )
     output = adv_chain.invoke(question)
-    return output.split("Answer:")[1].strip()
+    return output  #output.split("Answer:")[1].strip()
 
 def RAG(question, llm, retriever):
     prompts = hub.pull("rlm/rag-prompt")
@@ -114,7 +114,7 @@ def RAG(question, llm, retriever):
         | StrOutputParser()
     )
     output = rag_chain.invoke(question)
-    return output.split("Answer:")[1].strip()
+    return output #output.split("Answer:")[1].strip()
 
 
 ####################################### Main App ######################################
