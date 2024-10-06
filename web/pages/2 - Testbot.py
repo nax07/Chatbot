@@ -58,8 +58,10 @@ def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
 def llm_loading(model_id, key=False):
-    if key:
-        tokenizer = AutoTokenizer.from_pretrained(model_id, token=key)
+    if model_id == "cohere":
+        return Cohere(cohere_api_key=key, max_tokens=265)
+    elif model_id == "":
+         tokenizer = AutoTokenizer.from_pretrained(model_id, token=key)
         tokenizer.pad_token = tokenizer.eos_token
     
         config = AutoConfig.from_pretrained(model_id, token=key)
@@ -79,16 +81,14 @@ def llm_loading(model_id, key=False):
         max_new_tokens=128
         ) 
     
-        hf = HuggingFacePipeline(pipeline=text_generator)
+        return HuggingFacePipeline(pipeline=text_generator)
     else:
-    
-        hf = HuggingFacePipeline.from_model_id(
-            model_id=model_id,
-            task="text-generation",
-            model_kwargs={"temperature": 0.7, "trust_remote_code": True},
-            pipeline_kwargs={"max_new_tokens": 100},
-        )
-    return hf
+        return HuggingFacePipeline.from_model_id(
+                    model_id=model_id,
+                    task="text-generation",
+                    model_kwargs={"temperature": 0.7, "trust_remote_code": True},
+                    pipeline_kwargs={"max_new_tokens": 100})
+
 
 def processing(question, llm):
     return llm.invoke(question)
