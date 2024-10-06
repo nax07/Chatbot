@@ -121,12 +121,12 @@ def RAG_test(question, llm, retriever):
     retrieved_docs = retriever.invoke(question)
     formatted_docs = format_docs(retrieved_docs)
     rag_chain = (
-        RunnableParallel({"context": formatted_docs, "question": RunnablePassthrough()})
+        RunnableParallel({"context": RunnablePassthrough(), "question": RunnablePassthrough()})
         | prompts
         | llm
         | StrOutputParser()
     )
-    output = rag_chain.invoke(question)
+    output = rag_chain.invoke(formatted_docs, question)
     return output, formatted_docs
 
 ####################################### Main App ######################################
