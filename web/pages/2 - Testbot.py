@@ -43,6 +43,16 @@ st.session_state.setdefault("messages", [])            # Messages history
 st.session_state.setdefault("modelo", False)           # Nombre corto del modelo
 st.session_state.setdefault("process", False)          # llm (HuggingFacePipeline)
 
+# load embeddings and retriever
+if not st.session_state.embeddings or not st.session_state.retriever:
+    st.session_state.embeddings = HuggingFaceEmbeddings(
+        model_name="sentence-transformers/all-MiniLM-l6-v2",
+        model_kwargs={'device':'cpu'},
+        encode_kwargs={'normalize_embeddings': False}
+    )
+    vectorstore = FAISS.load_local(vectorstore_path, st.session_state.embeddings, allow_dangerous_deserialization=True)
+    st.session_state.retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
+
 ####################################### Auxiliar functions #######################################
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
@@ -119,11 +129,11 @@ st.sidebar.title('Opciones')
 
 # LLM
 st.sidebar.subheader('Modelo')
-model_name = st.sidebar.selectbox(
+st.session_state.model_name = st.sidebar.selectbox(
     "Selecciona el modelo de lenguaje natural:",
     ("Gpt2-xl", "Cohere", "Llama3"),
 )
-if model_name in ["Llama3", "Cohere"]:
+if st.session_state.model_name in ["Llama3", "Cohere"]:
     st.session_state.key = st.sidebar.text_input("Introduce llm Key", type="password")
     
 ## Configs
@@ -135,8 +145,6 @@ option = st.sidebar.radio(
     "Choose an option:",
     ("Regular processing", "Advanced prompts processing", "Regular RAG", "Multi-Query RAG")
 )
-#Adv_prompts = st.sidebar.checkbox("Activar Prompts Avanzados")
-#RAG = st.sidebar.checkbox("Activar RAG")
 
 # Buttons to confirm configurations
 set_button = st.sidebar.button("Confirmar Configuraciones")
@@ -150,30 +158,12 @@ if clc_historial:
 if set_button:
     st.session_state.messages = []
         
-    if model_name in ["Llama-3.1-8B-Instruct"] and not st.session_state.key:
+    if st.session_state.model_name in ["Cohere", "Llama3"] and not st.session_state.key:
         st.warning("Falta poner la huggingface key.")
 
     else:
-        if model_name != st.session_state.modelo or not st.session_state.process:
-            st.session_state.modelo = model_name
-            modelo = modelo_a_link.get(model_name)
-            st.session_state.process = llm_loading(modelo, st.session_state.key)
-    
-        
-        #if idioma != "Inglés":
-        #    lan1 = idioma_a_abreviacion.get(idioma)
-        #    st.session_state.lan_en = load_translator(lan1, "en")
-        #    st.session_state.en_lan = load_translator("en", lan1)
-        
-        if option in ["Regular RAG", "Multi-Query RAG"]:
-            st.session_state.embeddings = HuggingFaceEmbeddings(
-                model_name="sentence-transformers/all-MiniLM-l6-v2",
-                model_kwargs={'device':'cpu'},
-                encode_kwargs={'normalize_embeddings': False}
-            )
-            vectorstore = FAISS.load_local(vectorstore_path, st.session_state.embeddings, allow_dangerous_deserialization=True)
-            st.session_state.retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
-
+        modelo = modelo_a_link.get(st.session_state.model_name)
+        st.session_state.process = llm_loading(modelo, st.session_state.key)
 
 ####################################### Chatbot #######################################
 
@@ -194,10 +184,7 @@ if prompt:
             response = advanced_processing(prompt, llm=st.session_state.process)
         else:
             response = processing(prompt, llm=st.session_state.process)   
-             
-            #solution = data_processing(translated_prompt, Adv_prompts, RAG, st.session_state.process, st.session_state.embeddings, st.session_state.vectorstore)
-            #response = data_processing(prompt, Adv_prompts, RAG, st.session_state.process, st.session_state.embeddings, st.session_state.vectorstore)
-
+        
         st.session_state.messages.append({"role": "assistant", "content": response})
         st.rerun()
     else:
