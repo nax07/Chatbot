@@ -10,6 +10,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import ChatPromptTemplate
+from langchain.llms import Cohere
 from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig, pipeline
 from huggingface_hub import login
 from langchain_huggingface.llms import HuggingFacePipeline
@@ -61,7 +62,7 @@ def llm_loading(model_id, key=False):
     if model_id == "cohere":
         return Cohere(cohere_api_key=key, max_tokens=265)
     elif model_id == "":
-         tokenizer = AutoTokenizer.from_pretrained(model_id, token=key)
+        tokenizer = AutoTokenizer.from_pretrained(model_id, token=key)
         tokenizer.pad_token = tokenizer.eos_token
     
         config = AutoConfig.from_pretrained(model_id, token=key)
