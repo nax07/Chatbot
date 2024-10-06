@@ -191,7 +191,7 @@ if prompt:
         st.session_state.messages.append({"role": "user", "content": prompt})
         if option == "Multi-Query RAG":
             response, docs = RAG_test(prompt, llm=st.session_state.process, retriever=st.session_state.retriever)
-            st.session_state.messages.append({"role": "user", "content": docs})
+            st.session_state.messages.append({"role": "user", "content": string(docs)})
         elif option == "Regular RAG":
             response = RAG(prompt, llm=st.session_state.process, retriever=st.session_state.retriever)
         elif option == "Advanced prompts processing":
