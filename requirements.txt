@@ -5,9 +5,8 @@ sacremoses
 accelerate
 langchain
 tiktoken
-chromadb
 faiss-cpu 
 sentence-transformers
 langchain-community
 langchain_huggingface
-bitsandbytes
+cohere
