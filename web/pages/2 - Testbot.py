@@ -116,6 +116,18 @@ def RAG(question, llm, retriever):
     output = rag_chain.invoke(question)
     return output #output.split("Answer:")[1].strip()
 
+def RAG_test(question, llm, retriever):
+    prompts = hub.pull("rlm/rag-prompt")
+    retrieved_docs = retriever.invoke(question)
+    formatted_docs = format_docs(retrieved_docs)
+    rag_chain = (
+        RunnableParallel({"context": formatted_docs, "question": RunnablePassthrough()})
+        | prompts
+        | llm
+        | StrOutputParser()
+    )
+    output = rag_chain.invoke(question)
+    return output, formatted_docs
 
 ####################################### Main App ######################################
 
@@ -178,7 +190,8 @@ if prompt:
     if st.session_state.process:
         st.session_state.messages.append({"role": "user", "content": prompt})
         if option == "Multi-Query RAG":
-            response = RAG(prompt, llm=st.session_state.process, retriever=st.session_state.retriever)
+            response, docs = RAG_test(prompt, llm=st.session_state.process, retriever=st.session_state.retriever)
+            st.session_state.messages.append({"role": "user", "content": docs})
         elif option == "Regular RAG":
             response = RAG(prompt, llm=st.session_state.process, retriever=st.session_state.retriever)
         elif option == "Advanced prompts processing":
