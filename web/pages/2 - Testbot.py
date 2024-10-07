@@ -21,7 +21,7 @@ vectorstore_path = "/mount/src/chatbot/web/pages/vectorstore"
 modelo_a_link = {
     "Gpt2-xl": "openai-community/gpt2-xl",
     "Cohere": "cohere",
-    "Llama3": "meta-llama/Llama-3.1-8B-Instruct"
+    "Llama3": "meta-llama/Llama-3.2-3B-Instruct-Turbo"
 }
 template = """
 You are a question-answering assistant. Answer the question. If you don’t know the answer, simply say you don’t know. Use concise sentences, no more than 3.
@@ -61,28 +61,8 @@ def format_docs(docs):
 def llm_loading(model_id, key=False):
     if model_id == "cohere":
         return Cohere(cohere_api_key=key, max_tokens=265)
-    elif model_id == "":
-        tokenizer = AutoTokenizer.from_pretrained(model_id, token=key)
-        tokenizer.pad_token = tokenizer.eos_token
-    
-        config = AutoConfig.from_pretrained(model_id, token=key)
-        config.rope_scaling = { "type": "linear", "factor": 8.0 }
-    
-        model = AutoModelForCausalLM.from_pretrained(
-            model_id,
-            token=key,
-            device_map="auto",
-            #quantization_config=bnb_config,
-        )
-    
-        text_generator = pipeline(
-        "text-generation",
-        model=model,
-        tokenizer=tokenizer,
-        max_new_tokens=128
-        ) 
-    
-        return HuggingFacePipeline(pipeline=text_generator)
+    elif model_id == "meta-llama/Llama-3.2-3B-Instruct-Turbo":
+        return Together(model="meta-llama/Llama-3.2-3B-Instruct-Turbo", together_api_key=key)
     else:
         return HuggingFacePipeline.from_model_id(
                     model_id=model_id,
