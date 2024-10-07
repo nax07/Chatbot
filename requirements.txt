@@ -10,3 +10,4 @@ sentence-transformers
 langchain-community
 langchain_huggingface
 cohere
+langchain-together
