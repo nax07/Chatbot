@@ -15,6 +15,8 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig, pipeli
 from huggingface_hub import login
 from langchain_huggingface.llms import HuggingFacePipeline
 import torch
+from langchain_together import Together
+
 
 ####################################### Variables #######################################
 vectorstore_path = "/mount/src/chatbot/web/pages/vectorstore"
