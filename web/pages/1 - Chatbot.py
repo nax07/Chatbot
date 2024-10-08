@@ -133,7 +133,7 @@ def translator(text, pipe):
 
 ####################################### Main App ######################################
 
-st.title("Chatbot_Test")
+st.title("Chatbot")
 
 ####################################### Sidebar #######################################
 
@@ -163,7 +163,7 @@ st.sidebar.subheader('Configuraciones del Chatbot')
 # Other options
 
 option = st.sidebar.radio(
-    "Choose an option:",
+    "Tipo de procesamiento:",
     ("Regular processing", "Advanced prompts processing", "Regular RAG", "Multi-Query RAG")
 )
 
