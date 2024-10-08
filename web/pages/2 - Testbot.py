@@ -30,11 +30,25 @@ Question: {question}
 
 Answer:
 """
+idioma_a_abreviacion = {
+    "Inglés": "en",
+    "Español": "es",
+    "Francés": "fr",
+    "Alemán": "de",
+    "Italiano": "it",
+    "Ruso": "ru",
+    "Chino (Mandarín)": "zh",
+    "Árabe": "ar",
+    "Hindi": "hi"
+}
 
 # Inicialize session state
 st.session_state.setdefault("model_name", False)       # Model name
 st.session_state.setdefault("model_llm", False)        # Model LLM
 st.session_state.setdefault("model_key", False)        # Model API key with access
+st.session_state.setdefault("idioma", "Inglés")        # Idioma
+st.session_state.setdefault("modelo_en_lan", False)
+st.session_state.setdefault("modelo_lan_en", False)
 
 st.session_state.setdefault("embeddings", False)       # Embeddings
 st.session_state.setdefault("retriever", False)        # Retriever
@@ -108,6 +122,13 @@ def RAG_test(question, llm, retriever):
     output = rag_chain.invoke(question)
     return output, retrieved_docs #output.split("Answer:")[1].strip()
 
+def load_translator(language1, language2):
+    modelo = f"Helsinki-NLP/opus-mt-{language1}-{language2}"
+    return pipeline('translation', model=modelo)
+
+def translator(text, pipe):
+    return pipe(text)[0]['translation_text']
+
 ####################################### Main App ######################################
 
 st.title("Chatbot_Test")
@@ -118,6 +139,12 @@ st.title("Chatbot_Test")
 st.sidebar.title('Opciones')
 
 # Languages
+st.session_state.idioma = st.sidebar.selectbox(
+    "Selecciona el idioma:",
+    ("Español", "Inglés", "Francés",
+     "Aleman", "Italiano","Ruso",
+     "Chino (Mandarín)", "Árabe", "Hindi"),
+)
 
 # LLM
 st.sidebar.subheader('Modelo')
@@ -156,7 +183,10 @@ if set_button:
     else:
         modelo = modelo_a_link.get(st.session_state.model_name)
         st.session_state.process = llm_loading(modelo, st.session_state.key)
-
+    if st.session_state.idioma != "Inglés":
+        st.session_state.modelo_en_lan = load_translator("en", idioma_a_abreviacion.get(st.session_state.idioma))
+        st.session_state.modelo_lan_en = load_translator(idioma_a_abreviacion.get(st.session_state.idioma), "en")
+    
 ####################################### Chatbot #######################################
 
 prompt = st.chat_input(f'Envía un mensaje')
@@ -168,15 +198,24 @@ for message in st.session_state.messages:
 if prompt:
     if st.session_state.process:
         st.session_state.messages.append({"role": "user", "content": prompt})
+        
+        if st.session_state.idioma != "Inglés":
+            input = translator(prompt, st.session_state.modelo_lan_en)
+        else:
+            input = prompt    
+        
         if option == "Multi-Query RAG":
-            response, docs = RAG_test(prompt, llm=st.session_state.process, retriever=st.session_state.retriever)
+            response, docs = RAG_test(input, llm=st.session_state.process, retriever=st.session_state.retriever)
             st.session_state.messages.append({"role": "user", "content": docs})
         elif option == "Regular RAG":
-            response = RAG(prompt, llm=st.session_state.process, retriever=st.session_state.retriever)
+            response = RAG(input, llm=st.session_state.process, retriever=st.session_state.retriever)
         elif option == "Advanced prompts processing":
-            response = advanced_processing(prompt, llm=st.session_state.process)
+            response = advanced_processing(input, llm=st.session_state.process)
         else:
-            response = processing(prompt, llm=st.session_state.process)   
+            response = processing(input, llm=st.session_state.process)   
+
+        if st.session_state.idioma != "Inglés":
+            response =  translator(response, st.session_state.modelo_en_lan)
         
         st.session_state.messages.append({"role": "assistant", "content": response})
         st.rerun()
