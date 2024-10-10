@@ -21,7 +21,7 @@ st.markdown("""
 1. **Idioma**: Define el idioma en el que se envía la consulta al chatbot y el idioma en el que este responderá. Los idiomas disponibles son: Español, Inglés, Francés, Alemán, Italiano, Ruso, Chino (Mandarín), Árabe e Hindi.
 2. **Modelo**: Esta opción determina qué modelo de lenguaje natural se usará para procesar la petición. Los modelos disponibles son: Gpt2-xl, Cohere y Llama3.
 
-    - **Cohere**: Para obtener la clave, debes ir a la página oficial de Cohere (cohere.com), iniciar sesión con tu correo electrónico, acceder al dashboard y en la sección "API keys", crear una "New Trial Key". Estas claves son gratuitas pero limitadas.
+    - **Cohere**: Para obtener la clave, debes ir a la página oficial de Cohere (https://cohere.com/), iniciar sesión con tu correo electrónico, acceder al dashboard y en la sección "API keys", crear una "New Trial Key". Estas claves son gratuitas pero limitadas.
 
     - **Llama3**: Para usar este modelo, utilizamos la plataforma Together.ai (https://www.together.ai/), que nos permite utilizar el modelo de forma online sin necesidad de descargarlo. Debes iniciar sesión con tu correo electrónico, acceder al dashboard y generar una API key. Estas claves tienen un límite de uso de $5.
     
