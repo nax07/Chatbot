@@ -16,7 +16,11 @@ from huggingface_hub import login
 from langchain_huggingface.llms import HuggingFacePipeline
 import torch
 from langchain_together import Together
-
+from lanchain_core.output_parsers import StrOutputParser
+from langchain.prompts import ChatPromptTemplate
+from langchain.load import dumps, loads
+from langchain_core.runnables import RunnablePassthrough
+from langchain import hub
 
 ####################################### Variables #######################################
 vectorstore_path = "/mount/src/chatbot/web/pages/vectorstore"
@@ -74,6 +78,12 @@ if not st.session_state.embeddings or not st.session_state.retriever:
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
+def get_unique_union(documents: list[list]):
+    """ Unique union of retrieved docs """
+    flattened_docs = [dumps(doc) for sublist in documents for doc in sublist]
+    unique_docs = list(set(flattened_docs))
+    return [loads(doc) for doc in unique_docs]
+
 def llm_loading(model_id, key=False):
     if model_id == "cohere":
         return Cohere(cohere_api_key=key, max_tokens=265)
@@ -123,6 +133,36 @@ def RAG_test(question, llm, retriever):
     )
     output = rag_chain.invoke(question)
     return output, retrieved_docs #output.split("Answer:")[1].strip()
+
+def Multi_Query(question, llm, retriever):
+
+    template = """You are an AI language model assistant. Your task is to generate five
+    different versions of the given user question to retrieve relevant documents from a vector
+    database. By generating multiple perspectives on the user question, your goal is to help
+    the user overcome some of the limitations of the distance-based similarity search.
+    Provide these alternative questions separated by newlines. Original question: {question}"""
+    prompt_perspectives = ChatPromptTemplate.from_template(template)
+
+    generate_queries = (
+        prompt_perspectives
+        | llm
+        | StrOutputParser()
+        | (lambda x: x.split("\n"))
+    )
+
+    retrieval_chain = generate_queries | retriever.map() | get_unique_union
+    docs = retrieval_chain.invoque({"question": question})
+
+    prompt = hub.pull("rlm/rag-prompt")
+    final_chain = (
+        {"context": retrieval_chain,
+        "question": RunnablePassthrough()}
+        | prompt
+        | llm
+        | StrOutputParser()
+    )
+
+    return final_chain.invoke({"question": question})
 
 def load_translator(language1, language2):
     modelo = f"Helsinki-NLP/opus-mt-{language1}-{language2}"
@@ -207,8 +247,9 @@ if prompt:
             input = prompt    
         
         if option == "Multi-Query RAG":
-            response, docs = RAG_test(input, llm=st.session_state.process, retriever=st.session_state.retriever)
-            st.session_state.messages.append({"role": "user", "content": docs})
+            response = Multi_Query(input, llm=st.session_state.process, retriever=st.session_state.retriever)
+            #response, docs = RAG_test(input, llm=st.session_state.process, retriever=st.session_state.retriever)
+            #st.session_state.messages.append({"role": "user", "content": docs})
         elif option == "Regular RAG":
             response = RAG(input, llm=st.session_state.process, retriever=st.session_state.retriever)
         elif option == "Advanced prompts processing":
