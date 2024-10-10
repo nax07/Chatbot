@@ -57,6 +57,7 @@ st.session_state.setdefault("modelo_lan_en", False)
 
 st.session_state.setdefault("embeddings", False)       # Embeddings
 st.session_state.setdefault("retriever", False)        # Retriever
+st.session_state.setdefault("retrievermulti", False) 
 
 st.session_state.setdefault("messages", [])            # Messages history
 
@@ -72,6 +73,7 @@ if not st.session_state.embeddings or not st.session_state.retriever:
     )
     vectorstore = FAISS.load_local(vectorstore_path, st.session_state.embeddings, allow_dangerous_deserialization=True)
     st.session_state.retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
+    st.session_state.retrievermulti = vectorstore.as_retriever(search_kwargs={"k": 1})
 
 ####################################### Auxiliar functions #######################################
 def format_docs(docs):
@@ -246,7 +248,7 @@ if prompt:
             input = prompt    
         
         if option == "Multi-Query RAG":
-            response = Multi_Query(input, llm=st.session_state.process, retriever=st.session_state.retriever)
+            response = Multi_Query(input, llm=st.session_state.process, retriever=st.session_state.retrievermulti)
             #response, docs = RAG_test(input, llm=st.session_state.process, retriever=st.session_state.retriever)
             #st.session_state.messages.append({"role": "user", "content": docs})
         elif option == "Regular RAG":
