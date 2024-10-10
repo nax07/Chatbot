@@ -11,3 +11,5 @@ langchain-community
 langchain_huggingface
 cohere
 langchain-together
+lanchain_core
+langchainhub
