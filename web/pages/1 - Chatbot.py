@@ -150,7 +150,7 @@ def Multi_Query(question, llm, retriever):
     )
 
     retrieval_chain = generate_queries | retriever.map() | get_unique_union
-    docs = retrieval_chain.invoque({"question": question})
+    docs = retrieval_chain.invoke({"question": question})
 
     prompt = hub.pull("rlm/rag-prompt")
     final_chain = (
