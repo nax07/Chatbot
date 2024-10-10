@@ -27,10 +27,10 @@ st.markdown("""
     
 3. **Tipo de procesamiento**: Uno de los puntos fuertes de la aplicación es poder utilizar diferentes tipos de procesamiento para una misma pregunta. Las opciones disponibles son:
 
-    1. Regular processing: La petición del usuario se envía directamente al modelo de lenguaje natural.
-    2. Advanced prompts processing: Utiliza la librería Langchain para estructurar y clarificar la petición antes de enviarla al modelo.
-    3. Regular RAG (Retrieval-Augmented Generation): Se añade a la petición de Langchain un contexto. Este se calcula utilizando documentos relacionados con el tema, seleccionados a partir de una búsqueda.
-    4. Multi-Query RAG: Mejora la búsqueda de documentos de la opción anterior al reinterpretar la petición del usuario para obtener mejores resultados.
+    1. **Regular processing**: La petición del usuario se envía directamente al modelo de lenguaje natural.
+    2. **Advanced prompts processing**: Utiliza la librería Langchain para estructurar y clarificar la petición antes de enviarla al modelo.
+    3. **Regular RAG (Retrieval-Augmented Generation)**: Se añade a la petición de Langchain un contexto. Este se calcula utilizando documentos relacionados con el tema, seleccionados a partir de una búsqueda.
+    4. **Multi-Query RAG**: Mejora la búsqueda de documentos de la opción anterior al reinterpretar la petición del usuario para obtener mejores resultados.
 
 En las dos últimas opciones, los documentos utilizados para añadir contexto provienen de un podcast sobre deporte del profesor de la Universidad de Stanford, disponible en el canal de YouTube: [Huberman Lab](https://www.youtube.com/@hubermanlab).
 
