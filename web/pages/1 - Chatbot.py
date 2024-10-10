@@ -16,7 +16,6 @@ from huggingface_hub import login
 from langchain_huggingface.llms import HuggingFacePipeline
 import torch
 from langchain_together import Together
-from lanchain_core.output_parsers import StrOutputParser
 from langchain.prompts import ChatPromptTemplate
 from langchain.load import dumps, loads
 from langchain_core.runnables import RunnablePassthrough
