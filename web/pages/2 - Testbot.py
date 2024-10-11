@@ -175,7 +175,13 @@ def Multi_Query(question, llm, retriever):
     )
 
     output = final_chain.invoke({"question": question})
-    return output, docs
+    
+    links = []
+    for doc in retrieved_docs:
+        links.append(doc.metadata["source"])
+    links = list(set(links))
+    
+    return output, links
 
 def load_translator(language1, language2):
     modelo = f"Helsinki-NLP/opus-mt-{language1}-{language2}"
