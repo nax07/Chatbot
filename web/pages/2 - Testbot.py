@@ -134,7 +134,7 @@ def RAG(question, llm, retriever):
     
     text = ""
     for link in links:
-        text += link + "<br>"
+        text += link + "  \n"
     
     return output, text
 
@@ -178,7 +178,7 @@ def Multi_Query(question, llm, retriever):
 
     text = ""
     for link in links:
-        text += link + "<br>"
+        text += link + "  \n"
     
     return output, text
 
@@ -266,10 +266,10 @@ if prompt:
         
         if option == "Multi-Query RAG":
             response, text = Multi_Query(input, llm=st.session_state.process, retriever=st.session_state.retrievermulti)
-            response = response + "<br><br>" +  text
+            response = response + "  \n" +  text
         elif option == "Regular RAG":
             response, text = RAG(input, llm=st.session_state.process, retriever=st.session_state.retriever)
-            response = response + "<br><br>" + text
+            response = response + "  \n" + text
         elif option == "Advanced prompts processing":
             response = advanced_processing(input, llm=st.session_state.process)
         else:
