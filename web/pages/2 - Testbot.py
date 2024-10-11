@@ -134,7 +134,7 @@ def RAG(question, llm, retriever):
     
     text = ""
     for link in links:
-        text += link + "\n"
+        text += link + "<br>"
     
     return output, text
 
@@ -178,7 +178,7 @@ def Multi_Query(question, llm, retriever):
 
     text = ""
     for link in links:
-        text += link + "\n"
+        text += link + "<br>"
     
     return output, text
 
