@@ -114,14 +114,25 @@ def advanced_processing(question, llm):
 
 def RAG(question, llm, retriever):
     prompts = hub.pull("rlm/rag-prompt")
+    
+    retrieved_docs = retriever.invoke(question) 
+    context = format_docs(retrieved_docs)
+
     rag_chain = (
-        RunnableParallel({"context": retriever | format_docs, "question": RunnablePassthrough()})
+        RunnableParallel({"context": RunnablePassthrough(), "question": RunnablePassthrough()})
         | prompts
         | llm
         | StrOutputParser()
     )
-    output = rag_chain.invoke(question)
-    return output #output.split("Answer:")[1].strip()
+
+    output = rag_chain.invoke({"question": question, "context": context})
+
+    links = []
+    for doc in retrieved_docs:
+        links.append(doc.metadata["source"])
+    links = list(set(links))
+
+    return output, links
 
 def RAG_test(question, llm, retriever):
     prompts = hub.pull("rlm/rag-prompt")
@@ -163,7 +174,8 @@ def Multi_Query(question, llm, retriever):
         | StrOutputParser()
     )
 
-    return final_chain.invoke({"question": question})
+    output = final_chain.invoke({"question": question})
+    return output, docs
 
 def load_translator(language1, language2):
     modelo = f"Helsinki-NLP/opus-mt-{language1}-{language2}"
@@ -248,11 +260,11 @@ if prompt:
             input = prompt    
         
         if option == "Multi-Query RAG":
-            response = Multi_Query(input, llm=st.session_state.process, retriever=st.session_state.retrievermulti)
-            #response, docs = RAG_test(input, llm=st.session_state.process, retriever=st.session_state.retriever)
-            #st.session_state.messages.append({"role": "user", "content": docs})
+            response, links = Multi_Query(input, llm=st.session_state.process, retriever=st.session_state.retrievermulti)
+            response = response + f"/n/n{links}"
         elif option == "Regular RAG":
-            response = RAG(input, llm=st.session_state.process, retriever=st.session_state.retriever)
+            response, links = RAG(input, llm=st.session_state.process, retriever=st.session_state.retriever)
+            response = response + f"/n/n{links}"
         elif option == "Advanced prompts processing":
             response = advanced_processing(input, llm=st.session_state.process)
         else:
