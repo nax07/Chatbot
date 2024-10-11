@@ -87,16 +87,23 @@ def get_unique_union(documents: list[list]):
 
 def llm_loading(model_id, key=False):
     if model_id == "cohere":
-        return Cohere(cohere_api_key=key, max_tokens=265)
+        try:
+            output = Cohere(cohere_api_key=key, max_tokens=265)
+        except Exception as e:
+            output = False
+
     elif model_id == "meta-llama/Llama-3.2-3B-Instruct-Turbo":
-        return Together(model="meta-llama/Llama-3.2-3B-Instruct-Turbo", together_api_key=key)
+        try:
+            output = Together(model="meta-llama/Llama-3.2-3B-Instruct-Turbo", together_api_key=key)
+        except Exception as e:
+            output = False
     else:
-        return HuggingFacePipeline.from_model_id(
+        output= HuggingFacePipeline.from_model_id(
                     model_id=model_id,
                     task="text-generation",
                     model_kwargs={"temperature": 0.7, "trust_remote_code": True},
                     pipeline_kwargs={"max_new_tokens": 100})
-
+    return output
 
 def processing(question, llm):
     return llm.invoke(question)
@@ -238,11 +245,13 @@ if set_button:
     st.session_state.messages = []
         
     if st.session_state.model_name in ["Cohere", "Llama3"] and not st.session_state.key:
-        st.warning("Falta poner la huggingface key.")
+        st.warning("Falta poner la key.")
 
     else:
         modelo = modelo_a_link.get(st.session_state.model_name)
         st.session_state.process = llm_loading(modelo, st.session_state.key)
+        if not st.session_state.process:
+            st.warning("Key no correcta.")
     if st.session_state.idioma != "Inglés":
         st.session_state.modelo_en_lan = load_translator("en", idioma_a_abreviacion.get(st.session_state.idioma))
         st.session_state.modelo_lan_en = load_translator(idioma_a_abreviacion.get(st.session_state.idioma), "en")
