@@ -268,10 +268,10 @@ if prompt:
         
         if option == "Multi-Query RAG":
             response, links = Multi_Query(input, llm=st.session_state.process, retriever=st.session_state.retrievermulti)
-            response = response + "\n\n" +  f"{' '.join(links)}"
+            response = response + "\n\n" +  f"{'\n'.join(links)}"
         elif option == "Regular RAG":
             response, links = RAG(input, llm=st.session_state.process, retriever=st.session_state.retriever)
-            response = response + "\n\n" +  f"{' '.join(links)}"
+            response = response + "\n\n" +  f"{'\n'.join(links)}"
         elif option == "Advanced prompts processing":
             response = advanced_processing(input, llm=st.session_state.process)
         else:
