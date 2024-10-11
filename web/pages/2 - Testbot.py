@@ -83,7 +83,7 @@ def get_unique_union(documents: list[list]):
 def llm_loading(model_id, key=False):
     if model_id == "cohere":
         try:
-            llm = Cohere(cohere_api_key=key, max_tokens=1)
+            llm = Cohere(cohere_api_key=key, max_tokens=1, max_retries=1)
             test = llm("hello")
             output = Cohere(cohere_api_key=key, max_tokens=250)
         except Exception as e:
