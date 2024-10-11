@@ -164,17 +164,18 @@ def Multi_Query(question, llm, retriever):
 
     retrieval_chain = generate_queries | retriever.map() | get_unique_union
     docs = retrieval_chain.invoke({"question": question})
+    context = format_docs(docs)
 
     prompt = hub.pull("rlm/rag-prompt")
     final_chain = (
-        {"context": retrieval_chain,
+        {"context": RunnablePassthrough(),
         "question": RunnablePassthrough()}
         | prompt
         | llm
         | StrOutputParser()
     )
-
-    output = final_chain.invoke({"question": question})
+    
+    output = final_chain.invoke({"question": question, "context": context})
     
     links = []
     for doc in retrieved_docs:
@@ -267,10 +268,10 @@ if prompt:
         
         if option == "Multi-Query RAG":
             response, links = Multi_Query(input, llm=st.session_state.process, retriever=st.session_state.retrievermulti)
-            response = response + f"/n/n{links}"
+            response = response + f"\n\n{'\n'.join(links)}"
         elif option == "Regular RAG":
             response, links = RAG(input, llm=st.session_state.process, retriever=st.session_state.retriever)
-            response = response + f"/n/n{links}"
+            response = response + f"\n\n{'\n'.join(links)}"
         elif option == "Advanced prompts processing":
             response = advanced_processing(input, llm=st.session_state.process)
         else:
