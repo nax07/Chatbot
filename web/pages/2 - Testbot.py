@@ -131,20 +131,14 @@ def RAG(question, llm, retriever):
     for doc in retrieved_docs:
         links.append(doc.metadata["source"])
     links = list(set(links))
+    
+    text = ""
+    for link in links:
+        text += link + "\n"
+    
+    return output, text
 
-    return output, links
-
-def RAG_test(question, llm, retriever):
-    prompts = hub.pull("rlm/rag-prompt")
-    retrieved_docs = retriever.invoke(question)
-    rag_chain = (
-        RunnableParallel({"context": retriever | format_docs, "question": RunnablePassthrough()})
-        | prompts
-        | llm
-        | StrOutputParser()
-    )
-    output = rag_chain.invoke(question)
-    return output, retrieved_docs #output.split("Answer:")[1].strip()
+    #output.split("Answer:")[1].strip()
 
 def Multi_Query(question, llm, retriever):
 
@@ -181,8 +175,12 @@ def Multi_Query(question, llm, retriever):
     for doc in retrieved_docs:
         links.append(doc.metadata["source"])
     links = list(set(links))
+
+    text = ""
+    for link in links:
+        text += link + "\n"
     
-    return output, links
+    return output, text
 
 def load_translator(language1, language2):
     modelo = f"Helsinki-NLP/opus-mt-{language1}-{language2}"
