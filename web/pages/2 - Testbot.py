@@ -256,10 +256,11 @@ if set_button:
         st.session_state.process = llm_loading(modelo, st.session_state.key)
         if not st.session_state.process:
             st.warning("Key no correcta.")
-    if st.session_state.idioma != "Inglés":
-        st.session_state.modelo_en_lan = load_translator("en", idioma_a_abreviacion.get(st.session_state.idioma))
-        st.session_state.modelo_lan_en = load_translator(idioma_a_abreviacion.get(st.session_state.idioma), "en")
-    
+        else:
+            if st.session_state.idioma != "Inglés":
+                st.session_state.modelo_en_lan = load_translator("en", idioma_a_abreviacion.get(st.session_state.idioma))
+                st.session_state.modelo_lan_en = load_translator(idioma_a_abreviacion.get(st.session_state.idioma), "en")
+        
 ####################################### Chatbot #######################################
 
 prompt = st.chat_input(f'Envía un mensaje')
