@@ -88,13 +88,17 @@ def get_unique_union(documents: list[list]):
 def llm_loading(model_id, key=False):
     if model_id == "cohere":
         try:
-            output = Cohere(cohere_api_key=key, max_tokens=265)
+            output = Cohere(cohere_api_key=key, max_tokens=250)
+            llm = Cohere(cohere_api_key=key, max_tokens=1)
+            test = llm("hello")
         except Exception as e:
             output = False
 
     elif model_id == "meta-llama/Llama-3.2-3B-Instruct-Turbo":
         try:
-            output = Together(model="meta-llama/Llama-3.2-3B-Instruct-Turbo", together_api_key=key)
+            output = Together(model="meta-llama/Llama-3.2-3B-Instruct-Turbo", together_api_key=key, max_tokens= 250)
+            llm = Together(model="meta-llama/Llama-3.2-3B-Instruct-Turbo", together_api_key=key, max_tokens= 1)
+            test = llm("hello")
         except Exception as e:
             output = False
     else:
@@ -102,7 +106,7 @@ def llm_loading(model_id, key=False):
                     model_id=model_id,
                     task="text-generation",
                     model_kwargs={"temperature": 0.7, "trust_remote_code": True},
-                    pipeline_kwargs={"max_new_tokens": 100})
+                    pipeline_kwargs={"max_new_tokens": 250})
     return output
 
 def processing(question, llm):
