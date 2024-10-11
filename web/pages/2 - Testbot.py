@@ -1,7 +1,8 @@
-# Import libraries
-import streamlit as st
+####################################### Libraries #######################################
 import os
 import sys
+import streamlit as st
+from huggingface_hub import login
 from langchain import hub, HuggingFacePipeline
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
@@ -11,15 +12,12 @@ from langchain.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.llms import Cohere
-from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig, pipeline
-from huggingface_hub import login
 from langchain_huggingface.llms import HuggingFacePipeline
-import torch
 from langchain_together import Together
 from langchain.prompts import ChatPromptTemplate
 from langchain.load import dumps, loads
-from langchain_core.runnables import RunnablePassthrough
-from langchain import hub
+from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig, pipeline
+import torch
 
 ####################################### Variables #######################################
 vectorstore_path = "/mount/src/chatbot/web/pages/vectorstore"
@@ -49,8 +47,8 @@ idioma_a_abreviacion = {
 
 # Inicialize session state
 st.session_state.setdefault("model_name", False)       # Model name
-st.session_state.setdefault("model_llm", False)        # Model LLM
-st.session_state.setdefault("key", False)        # Model API key with access
+st.session_state.setdefault("process", False)          # llm 
+st.session_state.setdefault("key", False)              # Model API key with access
 st.session_state.setdefault("idioma", "Inglés")        # Idioma
 st.session_state.setdefault("modelo_en_lan", False)
 st.session_state.setdefault("modelo_lan_en", False)
@@ -59,10 +57,7 @@ st.session_state.setdefault("embeddings", False)       # Embeddings
 st.session_state.setdefault("retriever", False)        # Retriever
 st.session_state.setdefault("retrievermulti", False) 
 
-st.session_state.setdefault("messages", [])            # Messages history
-
-st.session_state.setdefault("modelo", False)           # Nombre corto del modelo
-st.session_state.setdefault("process", False)          # llm (HuggingFacePipeline)
+st.session_state.setdefault("messages", [])            # Messages history           
 
 # load embeddings and retriever
 if not st.session_state.embeddings or not st.session_state.retriever:
@@ -148,8 +143,6 @@ def RAG(question, llm, retriever):
         text += link + "  \n"
     
     return output, text
-
-    #output.split("Answer:")[1].strip()
 
 def Multi_Query(question, llm, retriever):
 
