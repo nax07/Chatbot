@@ -50,12 +50,12 @@ st.session_state.setdefault("model_name", False)       # Model name
 st.session_state.setdefault("process", False)          # llm 
 st.session_state.setdefault("key", False)              # Model API key with access
 st.session_state.setdefault("idioma", "Inglés")        # Idioma
-st.session_state.setdefault("modelo_en_lan", False)
-st.session_state.setdefault("modelo_lan_en", False)
+st.session_state.setdefault("modelo_en_lan", False)    # Modelo que traduce de inglés a el lenguaje de elección
+st.session_state.setdefault("modelo_lan_en", False)    # Modelo que traduce del lenguaje de elección a inglés
 
 st.session_state.setdefault("embeddings", False)       # Embeddings
-st.session_state.setdefault("retriever", False)        # Retriever
-st.session_state.setdefault("retrievermulti", False) 
+st.session_state.setdefault("retriever", False)        # Retriever para RAG
+st.session_state.setdefault("retrievermulti", False)   # Retriever para Multiquery RAG
 
 st.session_state.setdefault("messages", [])            # Messages history           
 
