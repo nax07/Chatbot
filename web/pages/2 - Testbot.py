@@ -172,7 +172,7 @@ def Multi_Query(question, llm, retriever):
     output = final_chain.invoke({"question": question, "context": context})
     
     links = []
-    for doc in retrieved_docs:
+    for doc in docs:
         links.append(doc.metadata["source"])
     links = list(set(links))
 
