@@ -50,7 +50,7 @@ idioma_a_abreviacion = {
 # Inicialize session state
 st.session_state.setdefault("model_name", False)       # Model name
 st.session_state.setdefault("model_llm", False)        # Model LLM
-st.session_state.setdefault("model_key", False)        # Model API key with access
+st.session_state.setdefault("key", False)        # Model API key with access
 st.session_state.setdefault("idioma", "Inglés")        # Idioma
 st.session_state.setdefault("modelo_en_lan", False)
 st.session_state.setdefault("modelo_lan_en", False)
