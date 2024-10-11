@@ -242,13 +242,13 @@ if set_button:
     st.session_state.messages = []
         
     if st.session_state.model_name in ["Cohere", "Llama3"] and not st.session_state.key:
-        st.warning("Falta poner la key.")
+        st.warning("El modelo requiere una clave API, indicaciones en la página Info.")
 
     else:
         modelo = modelo_a_link.get(st.session_state.model_name)
         st.session_state.process = llm_loading(modelo, st.session_state.key)
         if not st.session_state.process:
-            st.warning("Key no correcta.")
+            st.warning("La clave API no es correcta.")
         else:
             if st.session_state.idioma != "Inglés":
                 st.session_state.modelo_en_lan = load_translator("en", idioma_a_abreviacion.get(st.session_state.idioma))
@@ -288,4 +288,4 @@ if prompt:
         st.session_state.messages.append({"role": "assistant", "content": response})
         st.rerun()
     else:
-        st.warning("El modelo no está cargado. Seleccione un modelo y confirme las configuraciones.")
+        st.warning("El modelo no está cargado. Seleccione un modelo y complete las configuraciones.")
