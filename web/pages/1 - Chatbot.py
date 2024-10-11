@@ -270,7 +270,7 @@ if prompt:
             input = translator(prompt, st.session_state.modelo_lan_en)
         else:
             input = prompt    
-        
+            
         if option == "Multi-Query RAG":
             response, text = Multi_Query(input, llm=st.session_state.process, retriever=st.session_state.retrievermulti)
             response = response + "  \n  \n" +  text
