@@ -31,6 +31,8 @@ st.markdown("""
     3. **Regular RAG (Retrieval-Augmented Generation)**: Se añade a la petición de Langchain un contexto. Este se calcula utilizando documentos de deporte relacionados con la petición.
     4. **Multi-Query RAG**: Mejora la búsqueda de documentos de la opción anterior al reinterpretar la petición del usuario para obtener mejores resultados.
 
+""")
+st.markdown("""
 En las dos últimas opciones, los documentos utilizados para añadir contexto provienen de:
 
     * Un podcast sobre deporte del profesor de la Universidad de Stanford Andrew Huberman, disponible en el canal de YouTube: [Huberman Lab](https://www.youtube.com/@hubermanlab).
