@@ -35,8 +35,7 @@ st.markdown("""
 st.markdown("""
 En las dos últimas opciones, los documentos utilizados para añadir contexto provienen de:
 
-    1. Un podcast sobre deporte del profesor de la Universidad de Stanford Andrew Huberman, disponible en el canal de YouTube: [Huberman Lab](https://www.youtube.com/@hubermanlab).
-    2. Un podcast sobre calistenia del fisioterapeuta Daniel Vadnal, disponible en el canal de Youtube: [FitnessFAQs](https://www.youtube.com/@FitnessFAQs).
+
 
 Una vez se han cargado las configuraciones, haz clic en el botón "Confirmar configuraciones" para que la aplicación cargue la información correcta. Después de la carga, puedes comenzar a interactuar con el chatbot a través del cuadro de texto ubicado en la parte inferior de la página.
 """)
