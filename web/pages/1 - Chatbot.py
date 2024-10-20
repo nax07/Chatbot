@@ -22,7 +22,7 @@ import torch
 ####################################### Variables #######################################
 vectorstore_path = "/mount/src/chatbot/web/pages/vectorstore"
 modelo_a_link = {
-    "Gpt2-xl": "openai-community/gpt2-xl",
+    "Gpt2-xl": "openai-community/gpt2",
     "Cohere": "cohere",
     "Llama3": "meta-llama/Llama-3.2-3B-Instruct-Turbo"
 }
